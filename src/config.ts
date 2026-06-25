@@ -84,7 +84,7 @@ export const config = {
             technologies: "React, Node.js, Express, MongoDB, Tailwind CSS, Render",
             image: "/images/unifind-logo.png",
             description: "Built a centralized, campus-focused e-commerce platform facilitating the buying and selling of academic materials. Engineered a robust search and filtering system alongside an internal messaging API to enable seamless and secure communication between student buyers and sellers.",
-            link: "https://unifind1.onrender.com/"
+            link: "https://unifind-1.onrender.com/"
         }
     ],
     contact: {
