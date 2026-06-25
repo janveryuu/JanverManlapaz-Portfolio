@@ -91,7 +91,7 @@ export const config = {
         email: "Janvermanlapaz@gmail.com",
         github: "https://github.com/janveryuu",
         linkedin: "https://www.linkedin.com/in/janver-manlapaz-1817aa419/?skipRedirect=true",
-        twitter: "https://x.com/janvermanlapaz",
+        twitter: "https://x.com/JanverManlapaz",
         facebook: "https://www.facebook.com/janverpmanlapaz.manlapaz",
         instagram: "https://www.instagram.com/zjanver.mz"
     },
