@@ -1,95 +1,69 @@
-# 🚀 3D Developer Portfolio Website (React + TypeScript + Three.js)
+# 🚀 Janver Manlapaz - Developer Portfolio
 
-[![3D portfolio preview (click to watch video)](./Screenshot_2026-04-08_22-10-00.png)](./screen-capture%20(13).webm)
+![Portfolio Preview](./public/images/portfolio-screenshot.png)
 
 A modern, high-performance **3D developer portfolio website** built with **React**, **TypeScript**, **Three.js**, **GSAP**, and **WebGL**.
 
-If you’re a developer looking for a **portfolio template** that feels premium, interactive, and memorable—this repo is for you.
+## 👨‍💻 About Me
 
----
+I am Janver Manlapaz, a third-year Computer Engineering student and Full-Stack Developer specializing in front-end and back-end web application development. I have a strong focus on architecting scalable SaaS products and robust, data-driven systems.
 
 ## ✨ Highlights
 
 - **3D / WebGL experience** powered by **Three.js**
 - Smooth animations with **GSAP**
 - Modern **React + TypeScript** codebase
+- Integrated **AI Chat System** powered by Groq LLaMA 3
 - Fast, responsive UI (desktop + mobile)
-- Designed for developers, engineers, programmers, and creators
-
----
 
 ## 🧰 Tech Stack
 
-- **React**
-- **TypeScript**
-- **Three.js / WebGL**
-- **GSAP**
-- **HTML / CSS / JavaScript**
-
----
+- **React** & **Next.js**
+- **TypeScript** & **JavaScript**
+- **Three.js / WebGL** & **GSAP**
+- **Node.js** & **Express**
+- **Prisma**, **PostgreSQL**, **MongoDB**
+- **Tailwind CSS**
 
 ## 🚀 Getting Started
+
+To run this project locally:
 
 ### 1) Clone
 
 ```bash
-git clone https://github.com/janveryuu/portfolio-website.git
-cd portfolio-website
+git clone https://github.com/janveryuu/Janver-Manlapaz---Portfolio.git
+cd Janver-Manlapaz---Portfolio
 ```
 
-### 2) Install
+### 2) Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3) Run locally
+### 3) Set Up Environment
 
-```bash
-npm run dev
+Create a `.env` file in the root directory and add your Groq API key (used for the AI Chat feature):
+
+```env
+GROQ_API_KEY=your_api_key_here
 ```
 
-### 4) Build
+### 4) Run Locally
+
+Since this project uses Vercel Serverless Functions (`api/chat.js`), use the Vercel CLI to run it locally:
 
 ```bash
-npm run build
+npx vercel dev
 ```
 
----
+## 🤝 Connect
 
-## 🧩 Customize (Quick Guide)
-
-Typical things you’ll want to update:
-
-- **Your name + hero section text**
-- **Projects list**
-- **Social links** (GitHub, LinkedIn, email)
-- **SEO meta title/description**
-
----
-
-## ⭐ Support
-
-If you found this useful:
-
-- Please **star** the repository (it helps a lot)
-- Share it with a friend who needs a portfolio template
-- Sponsor via the **Sponsor** button on GitHub (if available in your region)
-
----
-
-- LinkedIn: https://www.linkedin.com/in/janver-manlapaz-1817aa419/
-
----
-
-## 🏷️ Recommended GitHub Topics (add in repo settings)
-
-Add these topics to improve GitHub search visibility:
-
-`portfolio` `developer-portfolio` `portfolio-website` `portfolio-template` `3d-portfolio` `react` `typescript` `threejs` `webgl` `gsap` `frontend` `vite`
-
----
+- **LinkedIn:** [Janver Manlapaz](https://www.linkedin.com/in/janver-manlapaz-1817aa419/)
+- **GitHub:** [@janveryuu](https://github.com/janveryuu)
+- **Email:** Janvermanlapaz@gmail.com
 
 ## 🪪 License
 
-This project is open source and available under the **MIT License**. See [LICENSE](LICENSE).
+This project is available under the **MIT License**.
