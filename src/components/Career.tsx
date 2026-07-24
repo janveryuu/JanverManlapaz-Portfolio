@@ -6,7 +6,7 @@ const getDisplayYear = (period: string) => {
   const years = period.match(/\b\d{4}\b/g);
   if (years && years.length >= 2) {
     if (years[0] === years[1]) return years[0];
-    return `${years[0]} - ${years[1]}`;
+    return `${years[0]}–${years[1]}`;
   } else if (years && years.length === 1) {
     return years[0];
   }
@@ -31,6 +31,7 @@ const Career = () => {
                 <div className="career-role">
                   <h4>{exp.position}</h4>
                   <h5>{exp.company}</h5>
+                  {exp.period && <span className="career-date">{exp.period}</span>}
                 </div>
                 <h3>{getDisplayYear(exp.period)}</h3>
               </div>
