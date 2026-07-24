@@ -3,10 +3,14 @@ import { config } from "../config";
 
 const getDisplayYear = (period: string) => {
   if (period.includes("Present")) return "NOW";
-  if (period.includes(" - ")) {
-    return period.split(" - ")[0]; // Show start year for ranges
+  const years = period.match(/\b\d{4}\b/g);
+  if (years && years.length >= 2) {
+    if (years[0] === years[1]) return years[0];
+    return `${years[0]} - ${years[1]}`;
+  } else if (years && years.length === 1) {
+    return years[0];
   }
-  return period; // Single year like "2021"
+  return period;
 };
 
 const Career = () => {

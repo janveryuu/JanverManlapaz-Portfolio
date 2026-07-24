@@ -16,46 +16,34 @@ export const config = {
     },
     experiences: [
         {
-            position: "Lead Full Stack Developer",
-            company: "Freelance & Projects",
-            period: "2026 - Present",
-            location: "Philippines",
-            description: "Building and shipping production-grade web applications including Pawi (financial tracker), Capy (mood & travel companion), and Unifind (student marketplace). Architecting scalable full-stack solutions with modern frameworks and cloud deployment.",
+            position: "Full Stack Software Engineer (2nd Lead)",
+            company: "Accenture",
+            period: "May 2025 - June 2026",
+            location: "CyberGate Boni Mandaluyong",
+            description: "Served as 2nd Lead on a cross-functional development team shipping 30+ SaaS applications & interactive 3D websites for external clients. Developed front-end and back-end systems using React, Angular, Node.js, TypeScript, and WebGL across databases including MongoDB, MySQL, and PostgreSQL.",
             responsibilities: [
-                "Developing full-stack web applications with React, Next.js, and Node.js",
-                "Designing and implementing secure database architectures with Prisma and PostgreSQL",
-                "Deploying and maintaining cloud-hosted applications on Vercel and Render",
-                "Building interactive dashboards and mobile-responsive interfaces"
+                "Served as 2nd Lead on a cross-functional development team shipping 30+ SaaS application products for external clients across varied industries",
+                "Developed and maintained front-end and back-end systems using React, Angular, Node.js, TypeScript, JavaScript, and Tailwind CSS, alongside WebGL for 3D web experiences",
+                "Designed and integrated RESTful APIs across client projects, applying strong OOP principles to ensure scalable, maintainable code",
+                "Worked across a broad database and backend ecosystem including MongoDB, MySQL, PostgreSQL, Firebase, Java, and .NET",
+                "Collaborated with team members and stakeholders in a fast-paced environment, taking on 2nd lead duties and AI automation workflows"
             ],
-            technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL", "Supabase", "Vercel"]
+            technologies: ["React", "Angular", "Node.js", "TypeScript", "JavaScript", "WebGL", "MongoDB", "MySQL", "PostgreSQL", "Firebase", "Java", ".NET", "Tailwind CSS"]
         },
         {
-            position: "Computer Engineering Student",
-            company: "University",
-            period: "2024 - Present",
-            location: "Philippines",
-            description: "Pursuing a degree in Computer Engineering with a focus on software development, data structures, algorithms, and cloud computing principles. Applying academic knowledge to real-world project development.",
+            position: "Full Stack Developer",
+            company: "Freelance",
+            period: "January 2025 - January 2026",
+            location: "Remote",
+            description: "Developed and scaled end-to-end web applications for diverse clients, taking full ownership from design to deployment. Optimized complex PostgreSQL database queries reducing load times by 80%, built responsive front-ends with TypeScript & SASS, and managed AWS & Vercel cloud deployment pipelines.",
             responsibilities: [
-                "Studying core computer science and engineering fundamentals",
-                "Learning data structures, algorithms, and system design",
-                "Exploring cloud computing and networking principles",
-                "Applying technical knowledge to hands-on projects"
+                "Developed and scaled end-to-end web applications for diverse clients, taking full feature ownership from architectural design to production deployment",
+                "Optimized legacy code and complex database queries using PostgreSQL and SQL, reducing application load times by 80% and query performance by 75%",
+                "Integrated responsive front-end interfaces utilizing TypeScript, SASS, and HTML5, improving user engagement by 97.8%",
+                "Managed cloud infrastructure and deployment pipelines on AWS and Vercel, ensuring 99.9% uptime and reducing deployment time by 55%",
+                "Collaborated with stakeholders in a Linux-based environment to maintain codebases and deliver high-impact features 60% ahead of deadlines"
             ],
-            technologies: ["Python", "C", "Java", "Data Structures", "Algorithms", "Networking"]
-        },
-        {
-            position: "Full-Stack Developer",
-            company: "Academic & Personal Projects",
-            period: "2025",
-            location: "Philippines",
-            description: "Developed responsive web applications, RESTful APIs, and cloud-deployed systems. Gained hands-on experience with modern front-end frameworks and back-end technologies through self-directed and academic projects.",
-            responsibilities: [
-                "Building responsive UIs with React and Tailwind CSS",
-                "Developing RESTful APIs with Node.js and Express",
-                "Integrating third-party services and databases",
-                "Deploying applications to cloud platforms"
-            ],
-            technologies: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "Git", "REST APIs"]
+            technologies: ["TypeScript", "React", "PostgreSQL", "SQL", "SASS", "HTML5", "AWS", "Vercel", "Linux", "Git"]
         }
     ],
     projects: [
