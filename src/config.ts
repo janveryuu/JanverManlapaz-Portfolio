@@ -12,7 +12,7 @@ export const config = {
     },
     about: {
         title: "About Me",
-        description: "I am a third-year Computer Engineering student and a Full-stack developer specializing in front-end and back-end web application development. I have a strong focus on architecting scalable SaaS products and robust, data-driven systems. Adept at leveraging modern tech stacks and cloud computing principles, I thrive on applying hands-on technical troubleshooting to build seamless, high-performance user experiences from initial concept to final deployment."
+        description: "I am a Full Stack Software Engineer with 3+ years of experience designing and shipping scalable web applications end-to-end — from architecture through deployment. I specialize in building robust SaaS products and data-driven systems, with hands-on expertise across React, TypeScript, Node.js, and modern cloud infrastructure. Adept at applying strong RESTful API design and Object-Oriented Programming principles, I thrive on solving complex technical challenges to deliver seamless, high-performance user experiences from initial concept to final deployment."
     },
     experiences: [
         {
