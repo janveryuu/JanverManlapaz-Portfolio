@@ -63,19 +63,21 @@
 }
 
 .career-role {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
+  padding-right: 10px;
 }
 
 .career-info h3 {
-  font-size: 28px;
+  font-size: clamp(20px, 2vw, 26px);
   margin: 0;
   font-weight: 600;
   line-height: 32px;
-  white-space: nowrap;
+  white-space: nowrap !important;
   letter-spacing: -0.5px;
   color: #ffffff;
   text-align: right;
+  flex-shrink: 0 !important;
 }
 
 .career-info h4 {

@@ -6,7 +6,7 @@ const getDisplayYear = (period: string) => {
   const years = period.match(/\b\d{4}\b/g);
   if (years && years.length >= 2) {
     if (years[0] === years[1]) return years[0];
-    return `${years[0]}–${years[1]}`;
+    return `${years[0]}\u00A0–\u00A0${years[1]}`;
   } else if (years && years.length === 1) {
     return years[0];
   }
