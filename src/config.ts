@@ -58,6 +58,15 @@ export const config = {
         },
         {
             id: 2,
+            title: "Jujutsu",
+            category: "Full Stack / SaaS & Fitness",
+            technologies: "React, Next.js, TypeScript, Tailwind CSS, Prisma, Supabase, Vercel",
+            image: "/images/jujutsu-logo.png",
+            description: "Built a Jujutsu Kaisen anime-inspired SaaS fitness tracking application. Features interactive workout logs, exercise progress analytics, and custom training routines designed for high-performance fitness tracking.",
+            link: "https://jujutsu-fitness.vercel.app/"
+        },
+        {
+            id: 3,
             title: "Capy",
             category: "Full Stack / Lifestyle",
             technologies: "React, Next.js, TypeScript, Tailwind CSS, Prisma, Supabase, Vercel AI SDK",
@@ -66,7 +75,7 @@ export const config = {
             link: "https://capy-app-fawn.vercel.app/"
         },
         {
-            id: 3,
+            id: 4,
             title: "Unifind",
             category: "Full Stack / E-Commerce",
             technologies: "React, Node.js, Express, MongoDB, Tailwind CSS, Render",
