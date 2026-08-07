@@ -14,20 +14,49 @@ const Navbar = () => {
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
 
+  // Lock/unlock body scroll when mobile menu is open
   useEffect(() => {
-    // Prevent body scroll when mobile menu is open
+    const isMobile = window.innerWidth <= 768;
+
     if (menuOpen) {
-      document.body.style.overflow = "hidden";
+      // On mobile: use native overflow hidden
+      // On desktop: pause lenis
+      if (isMobile) {
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+      } else if (lenis) {
+        lenis.stop();
+      }
     } else {
-      document.body.style.overflow = "";
+      if (isMobile) {
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+      } else if (lenis) {
+        lenis.start();
+      }
     }
+
     return () => {
+      // Always clean up on unmount
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [menuOpen]);
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll
+    // IMPORTANT: Do NOT initialize Lenis on mobile.
+    // Lenis intercepts touch events and conflicts with native mobile scrolling,
+    // causing the page to get stuck after the loading screen.
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      // On mobile, ensure body can scroll natively
+      document.body.style.overflow = "";
+      document.body.style.overflowY = "auto";
+      document.documentElement.style.overflowY = "auto";
+      return; // Skip Lenis entirely on mobile
+    }
+
+    // Initialize Lenis smooth scroll (desktop only)
     lenis = new Lenis({
       duration: 1.7,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -39,7 +68,7 @@ const Navbar = () => {
       infinite: false,
     });
 
-    // Start paused
+    // Start paused — will be started by initialFX after loading screen
     lenis.stop();
 
     // Handle smooth scroll animation frame
@@ -49,7 +78,7 @@ const Navbar = () => {
     }
     requestAnimationFrame(raf);
 
-    // Handle navigation links
+    // Handle desktop navigation link clicks with smooth Lenis scroll
     let links = document.querySelectorAll(".header ul a");
     links.forEach((elem) => {
       let element = elem as HTMLAnchorElement;
@@ -78,17 +107,29 @@ const Navbar = () => {
 
     return () => {
       lenis?.destroy();
+      lenis = null;
     };
   }, []);
 
   const handleMobileNavClick = (href: string) => {
     closeMenu();
+
+    // After menu closes (CSS transition ~350ms), scroll to target natively
     setTimeout(() => {
+      // Ensure overflow is restored before scrolling
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+
       const target = document.querySelector(href) as HTMLElement;
       if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
+        // Use offsetTop for most reliable mobile scroll
+        const offsetTop = target.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: "smooth",
+        });
       }
-    }, 350);
+    }, 400);
   };
 
   return (

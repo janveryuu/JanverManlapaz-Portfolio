@@ -3,9 +3,22 @@ import gsap from "gsap";
 import { lenis } from "../Navbar";
 
 export function initialFX() {
-  document.body.style.overflowY = "auto";
-  if (lenis) {
-    lenis.start();
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // On mobile: reset ALL overflow properties to allow native scrolling
+    document.body.style.overflow = "";
+    document.body.style.overflowY = "auto";
+    document.body.style.overflowX = "hidden";
+    document.documentElement.style.overflow = "";
+    document.documentElement.style.overflowY = "auto";
+    document.documentElement.style.overflowX = "hidden";
+  } else {
+    // On desktop: restore scroll via body + start Lenis
+    document.body.style.overflowY = "auto";
+    if (lenis) {
+      lenis.start();
+    }
   }
   document.getElementsByTagName("main")[0].classList.add("main-active");
   gsap.to("body", {

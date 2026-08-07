@@ -37,13 +37,15 @@ body {
   overflow: hidden;
 }
 
-/* Allow scrolling on mobile + prevent all horizontal overflow */
+/* Mobile: Allow native scrolling + prevent horizontal overflow */
 @media only screen and (max-width: 768px) {
   html {
     overflow-x: hidden !important;
     overflow-y: auto !important;
-    touch-action: manipulation;
+    /* pan-y: allow vertical touch scrolling at all times */
+    touch-action: pan-y;
     -webkit-text-size-adjust: 100%;
+    height: auto !important;
   }
 
   body {
@@ -51,8 +53,12 @@ body {
     overflow-y: auto !important;
     height: auto !important;
     min-height: 100svh !important;
-    touch-action: manipulation;
+    /* pan-y: explicitly enable touch scroll, prevents Lenis/GSAP from blocking it */
+    touch-action: pan-y;
     --cWidth: calc(100% - 30px);
+    /* Never let JS lock the body on mobile via 'overflow: hidden' globally.
+       The hamburger menu uses JS overflow:hidden on open — that's handled in Navbar.tsx
+       and only applies while the menu is open. */
   }
 
   /* Ensure the main container doesn't clip content */
@@ -68,6 +74,11 @@ body {
     width: calc(100% - 30px) !important;
     max-width: 100% !important;
     box-sizing: border-box;
+  }
+
+  /* Lenis adds [data-lenis-prevent] and [data-lenis-*] — override on mobile */
+  [data-lenis-prevent] {
+    overflow: auto !important;
   }
 }
 
