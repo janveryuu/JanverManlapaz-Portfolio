@@ -41,6 +41,27 @@
   display: block;
 }
 
+@media only screen and (max-width: 599px) {
+  .about-section {
+    justify-content: left;
+    overflow-x: hidden;
+  }
+  .about-me {
+    padding: 30px 0;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .about-me h3 {
+    font-size: 16px;
+    letter-spacing: 3px;
+  }
+  .about-me p {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
 @media only screen and (min-width: 600px) {
   .about-section {
     justify-content: center;

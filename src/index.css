@@ -37,25 +37,37 @@ body {
   overflow: hidden;
 }
 
-/* Allow scrolling on mobile */
+/* Allow scrolling on mobile + prevent all horizontal overflow */
 @media only screen and (max-width: 768px) {
-  body {
-    overflow: auto !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    touch-action: manipulation;
-  }
-
   html {
     overflow-x: hidden !important;
     overflow-y: auto !important;
     touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
   }
 
-  /* Ensure no fixed elements block scrolling */
+  body {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100svh !important;
+    touch-action: manipulation;
+    --cWidth: calc(100% - 30px);
+  }
+
+  /* Ensure the main container doesn't clip content */
   .container-main {
     position: static !important;
     height: auto !important;
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  /* Fix section containers */
+  .section-container {
+    width: calc(100% - 30px) !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
   }
 }
 

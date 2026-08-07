@@ -81,6 +81,21 @@ div.resume-button span {
   width: 100%;
   z-index: 99999;
 }
+/* Hide resume button and social icons on mobile */
+@media only screen and (max-width: 768px) {
+  .resume-button {
+    display: none !important;
+  }
+
+  .social-icons {
+    display: none !important;
+  }
+
+  .icons-section {
+    display: none !important;
+  }
+}
+
 @media only screen and (min-width: 900px) {
   .social-icons {
     display: flex;
@@ -90,7 +105,8 @@ div.resume-button span {
     font-size: 28px;
   }
 }
-@media only screen and (min-width: 768px) {
+
+@media only screen and (min-width: 769px) {
   .resume-button {
     transform: none;
     font-size: 20px;

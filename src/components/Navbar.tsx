@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
 import { gsap } from "gsap";
@@ -9,6 +9,23 @@ gsap.registerPlugin(ScrollTrigger);
 export let lenis: Lenis | null = null;
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    // Prevent body scroll when mobile menu is open
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   useEffect(() => {
     // Initialize Lenis smooth scroll
     lenis = new Lenis({
@@ -63,6 +80,17 @@ const Navbar = () => {
       lenis?.destroy();
     };
   }, []);
+
+  const handleMobileNavClick = (href: string) => {
+    closeMenu();
+    setTimeout(() => {
+      const target = document.querySelector(href) as HTMLElement;
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 350);
+  };
+
   return (
     <>
       <div className="header">
@@ -76,7 +104,8 @@ const Navbar = () => {
         >
           Janvermanlapaz@gmail.com
         </a>
-        <ul>
+        {/* Desktop nav */}
+        <ul className="navbar-desktop-links">
           <li>
             <a data-href="#about" href="#about">
               <HoverLinks text="ABOUT" />
@@ -93,6 +122,39 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
+        {/* Hamburger button - mobile only */}
+        <button
+          className={`hamburger-btn${menuOpen ? " hamburger-open" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+          data-cursor="disable"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      {/* Mobile menu overlay */}
+      <div className={`mobile-menu-overlay${menuOpen ? " mobile-menu-active" : ""}`}>
+        <div className="mobile-menu-content">
+          <nav className="mobile-menu-nav">
+            <a href="#about" onClick={() => handleMobileNavClick("#about")}>
+              ABOUT
+            </a>
+            <a href="#work" onClick={() => handleMobileNavClick("#work")}>
+              WORK
+            </a>
+            <a href="#contact" onClick={() => handleMobileNavClick("#contact")}>
+              CONTACT
+            </a>
+          </nav>
+          <div className="mobile-menu-footer">
+            <a href="mailto:Janvermanlapaz@gmail.com" className="mobile-menu-email" onClick={closeMenu}>
+              Janvermanlapaz@gmail.com
+            </a>
+          </div>
+        </div>
       </div>
 
       <div className="landing-circle1"></div>
