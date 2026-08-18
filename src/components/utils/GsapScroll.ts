@@ -191,4 +191,22 @@ export function setAllTimeline() {
       0
     );
   }
+
+  // ── Certifications section parallax (desktop only) ──────────────
+  if (window.innerWidth > 1024) {
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".certifications-section",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.2,
+        invalidateOnRefresh: true,
+      },
+    }).fromTo(
+      ".certifications-section",
+      { y: 0 },
+      { y: "15%", ease: "none" }
+    );
+  }
 }
+

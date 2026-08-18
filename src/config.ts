@@ -1,3 +1,13 @@
+export interface Certification {
+    id: string;
+    title: string;
+    issuer: string;
+    date: string;
+    credentialUrl?: string;
+    badgeImage?: string;
+    description?: string;
+}
+
 export const config = {
     developer: {
         name: "Janver",
@@ -105,7 +115,36 @@ export const config = {
             details: "Architecting scalable, data-driven systems using modern DevOps tooling. Experienced with database design, CI/CD pipelines, containerization, and cloud deployment workflows.",
             tools: ["Supabase", "Vercel", "AWS", "Google Cloud", "Hadoop", "Python"]
         }
-    }
+    },
+    certifications: [
+        {
+            id: "hennge-2026",
+            title: "HENNGE Global Internship Program",
+            issuer: "HENNGE K.K.",
+            date: "2026",
+            credentialUrl: "",
+            description: "Passed the highly competitive admission challenge for HENNGE's global engineering internship, demonstrating proficiency in algorithms, data structures, and software engineering principles."
+        },
+        // TODO: replace with real cert data
+        {
+            id: "placeholder-1",
+            title: "AWS Certified Developer – Associate",
+            issuer: "Amazon Web Services",
+            date: "2025",
+            credentialUrl: "",
+            description: "Validates technical expertise in developing, deploying, and debugging cloud-based applications using AWS services and architectures."
+        },
+        // TODO: replace with real cert data
+        {
+            id: "placeholder-2",
+            title: "Google Cloud Professional Data Engineer",
+            issuer: "Google Cloud",
+            date: "2025",
+            credentialUrl: "",
+            description: "Demonstrates ability to design, build, operationalize, secure, and monitor data processing systems with a focus on big data and machine learning."
+        }
+    ] satisfies Certification[]
 };
+
 
 

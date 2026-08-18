@@ -1,0 +1,429 @@
+/* ============================================================
+   CERTIFICATIONS SECTION
+   Visual language: Blueprint/technical aesthetic matching
+   WhatIDo.css (dashed SVG borders, corner brackets) and
+   Career.css (gradient heading). Card grid with CSS 3D tilt.
+   ============================================================ */
+
+/* ─── Section wrapper ──────────────────────────────────────── */
+.certifications-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 0 180px;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Ambient radial glow behind cards (same as TechStack) */
+.certifications-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 40%, rgba(194, 164, 255, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 60%, rgba(127, 64, 255, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Inner container ───────────────────────────────────────── */
+.cert-container {
+  width: var(--cWidth);
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Section heading ───────────────────────────────────────── */
+.cert-heading {
+  font-size: clamp(46px, 5.5vw, 80px);
+  line-height: 1;
+  font-weight: 400;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 70px;
+  /* Same gradient as Career h2 */
+  background: linear-gradient(0deg, #7f40ff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.cert-heading span {
+  font-weight: 300;
+}
+
+/* ─── Card grid ─────────────────────────────────────────────── */
+/* perspective on parent enables child card 3D transforms */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+  perspective: 900px;
+}
+
+/* ─── Individual card ───────────────────────────────────────── */
+.cert-card {
+  position: relative;
+  padding: 0; /* inner padding lives on .cert-inner */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(194, 164, 255, 0.03) 100%
+  );
+  border-radius: 2px;
+  cursor: default;
+  outline: none;
+
+  /* 3D tilt — driven by JS custom props --rx, --ry */
+  transform-style: preserve-3d;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.08s linear, box-shadow 0.35s ease, border-color 0.35s ease;
+  will-change: transform;
+
+  /* Subtle border (default) */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cert-card:hover,
+.cert-card:focus-visible {
+  box-shadow:
+    0 0 0 1px rgba(194, 164, 255, 0.35),
+    0 8px 48px rgba(194, 164, 255, 0.15),
+    0 0 80px rgba(127, 64, 255, 0.08);
+  border-color: rgba(194, 164, 255, 0.3);
+}
+
+.cert-card:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 4px;
+}
+
+/* ─── Blueprint dashed border overlays ──────────────────────── */
+/* Horizontal borders (top + bottom lines) */
+.cert-border-h {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.18;
+  transition: opacity 0.35s ease;
+}
+
+.cert-card:hover .cert-border-h,
+.cert-card:focus-visible .cert-border-h {
+  opacity: 0.45;
+}
+
+/* Vertical borders (left + right lines) */
+.cert-border-v {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.18;
+  transition: opacity 0.35s ease;
+}
+
+.cert-card:hover .cert-border-v,
+.cert-card:focus-visible .cert-border-v {
+  opacity: 0.45;
+}
+
+/* ─── Corner brackets (matching WhatIDo what-content::before/after) ─ */
+.cert-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  transition: border-color 0.35s ease;
+  pointer-events: none;
+}
+
+.cert-card:hover .cert-corner,
+.cert-card:focus-visible .cert-corner {
+  border-color: var(--accentColor);
+}
+
+.cert-corner-tl {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.cert-corner-tr {
+  top: -2px;
+  right: -2px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.cert-corner-bl {
+  bottom: -2px;
+  left: -2px;
+  border-right: none;
+  border-top: none;
+}
+
+.cert-corner-br {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
+/* ─── Card inner layout ─────────────────────────────────────── */
+.cert-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 36px 32px;
+  box-sizing: border-box;
+  gap: 20px;
+}
+
+/* ─── Badge ──────────────────────────────────────────────────── */
+.cert-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(194, 164, 255, 0.2), rgba(127, 64, 255, 0.3));
+  border: 1px solid rgba(194, 164, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  /* badge also participates in 3D — pushed slightly forward */
+  transform: translateZ(8px);
+}
+
+.cert-badge img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  filter: brightness(1.2);
+}
+
+.cert-initials {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accentColor);
+  font-family: "Geist", sans-serif;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+/* ─── Card body ──────────────────────────────────────────────── */
+.cert-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+/* Monospaced "CERTIFICATION" label */
+.cert-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accentColor);
+  opacity: 0.75;
+  margin: 0;
+  font-family: "Geist", monospace;
+}
+
+.cert-label-icon {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.cert-title {
+  font-size: clamp(17px, 1.5vw, 21px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.cert-issuer {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.cert-desc {
+  font-size: 12.5px;
+  font-weight: 300;
+  line-height: 18px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 4px 0 0;
+  flex: 1;
+}
+
+/* ─── Card footer (date + link) ──────────────────────────────── */
+.cert-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  gap: 10px;
+}
+
+.cert-date {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: "Geist", monospace;
+  text-transform: uppercase;
+}
+
+.cert-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accentColor);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: opacity 0.25s ease, gap 0.25s ease;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.cert-link:hover {
+  opacity: 1;
+  gap: 8px;
+  color: var(--accentColor);
+}
+
+.cert-link-icon {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* ─── RESPONSIVE: tablet ─────────────────────────────────────── */
+@media only screen and (max-width: 1200px) {
+  .certifications-section {
+    padding: 80px 0 120px;
+  }
+
+  .cert-heading {
+    font-size: clamp(40px, 5vw, 65px);
+    margin-bottom: 50px;
+  }
+
+  .cert-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 22px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .certifications-section {
+    padding: 60px 0 100px;
+  }
+
+  .cert-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+}
+
+/* ─── RESPONSIVE: mobile ─────────────────────────────────────── */
+@media only screen and (max-width: 768px) {
+  .certifications-section {
+    padding: 50px 0 80px;
+  }
+
+  .cert-heading {
+    font-size: 44px;
+    margin-bottom: 36px;
+  }
+
+  .cert-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    perspective: none; /* no 3D on mobile */
+  }
+
+  /* Disable 3D transform entirely on mobile */
+  .cert-card {
+    transform: none !important;
+    touch-action: pan-y;
+    /* Tap highlight */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .cert-card:active {
+    box-shadow:
+      0 0 0 1px rgba(194, 164, 255, 0.3),
+      0 4px 24px rgba(194, 164, 255, 0.12);
+    border-color: rgba(194, 164, 255, 0.25);
+  }
+
+  .cert-inner {
+    padding: 28px 22px;
+  }
+
+  .cert-title {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .cert-heading {
+    font-size: 36px;
+    line-height: 1.1;
+  }
+
+  .cert-inner {
+    padding: 24px 18px;
+  }
+}
+
+/* ─── prefers-reduced-motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .cert-card {
+    transform: none !important;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .cert-badge {
+    transform: none !important;
+  }
+
+  .cert-border-h,
+  .cert-border-v {
+    transition: none;
+  }
+
+  .cert-corner {
+    transition: none;
+  }
+
+  .cert-link {
+    transition: opacity 0.15s ease;
+  }
+}

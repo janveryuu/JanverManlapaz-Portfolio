@@ -158,6 +158,11 @@ const Navbar = () => {
             </a>
           </li>
           <li>
+            <a data-href="#certifications" href="#certifications">
+              <HoverLinks text="CERTS" />
+            </a>
+          </li>
+          <li>
             <a data-href="#contact" href="#contact">
               <HoverLinks text="CONTACT" />
             </a>
@@ -185,6 +190,9 @@ const Navbar = () => {
             </a>
             <a href="#work" onClick={() => handleMobileNavClick("#work")}>
               WORK
+            </a>
+            <a href="#certifications" onClick={() => handleMobileNavClick("#certifications")}>
+              CERTS
             </a>
             <a href="#contact" onClick={() => handleMobileNavClick("#contact")}>
               CONTACT
