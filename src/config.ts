@@ -5,7 +5,9 @@ export interface Certification {
     date: string;
     credentialUrl?: string;
     badgeImage?: string;
+    image?: string;
     description?: string;
+    skills?: string[];
 }
 
 export const config = {
@@ -118,30 +120,44 @@ export const config = {
     },
     certifications: [
         {
-            id: "hennge-2026",
-            title: "HENNGE Global Internship Program",
-            issuer: "HENNGE K.K.",
-            date: "2026",
-            credentialUrl: "",
-            description: "Passed the highly competitive admission challenge for HENNGE's global engineering internship, demonstrating proficiency in algorithms, data structures, and software engineering principles."
+            id: "accenture-academy-2025",
+            title: "Accenture Technology Academy",
+            issuer: "Accenture",
+            date: "2025 – 2026",
+            image: "/images/certificates/accenture-academy.png",
+            credentialUrl: "/images/certificates/accenture-academy.png",
+            description: "Certificate of Completion for successfully completing the Accenture Technology Academy training program in Back End and Front End Development.",
+            skills: ["Full Stack", "Front End", "Back End", "Enterprise Architecture"]
         },
-        // TODO: replace with real cert data
         {
-            id: "placeholder-1",
-            title: "AWS Certified Developer – Associate",
-            issuer: "Amazon Web Services",
-            date: "2025",
-            credentialUrl: "",
-            description: "Validates technical expertise in developing, deploying, and debugging cloud-based applications using AWS services and architectures."
+            id: "circuit-java-2025",
+            title: "Java Trial Session – CIRCUIT",
+            issuer: "CURSOR • Batangas State University",
+            date: "Nov 2025",
+            image: "/images/certificates/java-certificate.png",
+            credentialUrl: "/images/certificates/java-certificate.png",
+            description: "Certificate of Recognition for active participation and proficiency in the Java Trial Session of the CURSOR Initiative for Robotics, Coding, Uptraining, Innovation, & Talent.",
+            skills: ["Java", "OOP", "Algorithms", "Software Engineering"]
         },
-        // TODO: replace with real cert data
         {
-            id: "placeholder-2",
-            title: "Google Cloud Professional Data Engineer",
-            issuer: "Google Cloud",
-            date: "2025",
-            credentialUrl: "",
-            description: "Demonstrates ability to design, build, operationalize, secure, and monitor data processing systems with a focus on big data and machine learning."
+            id: "circuit-python-2025",
+            title: "2nd Python Trial Session – CIRCUIT",
+            issuer: "CURSOR • Batangas State University",
+            date: "Nov 2025",
+            image: "/images/certificates/python-certificate.png",
+            credentialUrl: "/images/certificates/python-certificate.png",
+            description: "Certificate of Recognition for active participation and performance in the 2nd Python Trial Session of the CURSOR Initiative for Robotics, Coding, Uptraining, Innovation, & Talent.",
+            skills: ["Python", "Data Structures", "Scripting", "Automation"]
+        },
+        {
+            id: "circuit-robotics-2025",
+            title: "Robotics Trial Session – CIRCUIT",
+            issuer: "CURSOR • Batangas State University",
+            date: "Nov 2025",
+            image: "/images/certificates/robotics-certificate.png",
+            credentialUrl: "/images/certificates/robotics-certificate.png",
+            description: "Certificate of Recognition for active participation in the Robotics Trial Session organized by the Computer Engineering Students' Organization.",
+            skills: ["Robotics", "Hardware-Software Integration", "Microcontrollers"]
         }
     ] satisfies Certification[]
 };

@@ -1,31 +1,43 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./styles/Certifications.css";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { config, Certification } from "../config";
-import { FiExternalLink } from "react-icons/fi";
+import { FiExternalLink, FiMaximize2, FiX } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
 
 gsap.registerPlugin(ScrollTrigger);
-
-/** Returns initials (up to 2 chars) from an issuer name */
-function getInitials(issuer: string): string {
-  return issuer
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join("");
-}
 
 const Certifications = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const gsapCtx = useRef<gsap.Context | null>(null);
 
+  // State for image lightbox preview
+  const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+
   const prefersReducedMotion =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Handle ESC key for modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedCert(null);
+      }
+    };
+    if (selectedCert) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedCert]);
 
   /* ---------- 3D TILT (desktop / non-touch only) ---------- */
   useEffect(() => {
@@ -59,8 +71,8 @@ const Certifications = () => {
         const cy = rect.top + rect.height / 2;
         const dx = (e.clientX - cx) / (rect.width / 2);
         const dy = (e.clientY - cy) / (rect.height / 2);
-        targetRy = dx * 12;   // max ±12°
-        targetRx = -dy * 10;  // max ±10°
+        targetRy = dx * 10;   // max ±10°
+        targetRx = -dy * 8;   // max ±8°
       };
 
       const onLeave = () => {
@@ -90,15 +102,13 @@ const Certifications = () => {
     if (!sectionRef.current) return;
 
     gsapCtx.current = gsap.context(() => {
-      // Heading char animation is handled globally by splitText.ts (.title class)
-
       // Cards stagger in
       gsap.fromTo(
         ".cert-card",
         {
           autoAlpha: 0,
-          y: prefersReducedMotion ? 0 : 55,
-          rotateX: prefersReducedMotion ? 0 : 14,
+          y: prefersReducedMotion ? 0 : 50,
+          rotateX: prefersReducedMotion ? 0 : 12,
         },
         {
           autoAlpha: 1,
@@ -106,29 +116,10 @@ const Certifications = () => {
           rotateX: 0,
           duration: prefersReducedMotion ? 0.01 : 0.85,
           ease: "power3.out",
-          stagger: prefersReducedMotion ? 0 : 0.13,
+          stagger: prefersReducedMotion ? 0 : 0.12,
           scrollTrigger: {
             trigger: ".certifications-section",
-            start: "top 68%",
-            toggleActions: "play pause resume reverse",
-            invalidateOnRefresh: true,
-          },
-        }
-      );
-
-      // Subtle label/badge pop-in after cards appear
-      gsap.fromTo(
-        ".cert-badge",
-        { scale: prefersReducedMotion ? 1 : 0.6, autoAlpha: 0 },
-        {
-          scale: 1,
-          autoAlpha: 1,
-          duration: prefersReducedMotion ? 0.01 : 0.5,
-          ease: "back.out(1.7)",
-          stagger: prefersReducedMotion ? 0 : 0.13,
-          scrollTrigger: {
-            trigger: ".certifications-section",
-            start: "top 65%",
+            start: "top 70%",
             toggleActions: "play pause resume reverse",
             invalidateOnRefresh: true,
           },
@@ -148,11 +139,20 @@ const Certifications = () => {
       ref={sectionRef}
     >
       <div className="cert-container">
-        <h2 className="title cert-heading">
-          Certifications <span>&amp;</span>
-          <br />
-          Credentials
-        </h2>
+        <div className="cert-header-row">
+          <div>
+            <h2 className="title cert-heading">
+              Certifications <span>&amp;</span>
+              <br />
+              Credentials
+            </h2>
+          </div>
+          <div className="cert-subtitle-wrap">
+            <p className="cert-subtitle">
+              Verified certifications, academy completions, and technical awards in software development, cloud systems, and engineering.
+            </p>
+          </div>
+        </div>
 
         <div className="cert-grid">
           {(config.certifications as Certification[]).map((cert, index) => (
@@ -201,21 +201,43 @@ const Certifications = () => {
 
               {/* Card body */}
               <div className="cert-inner">
-                {/* Badge / initials */}
-                <div className="cert-badge" aria-hidden="true">
-                  {cert.badgeImage ? (
-                    <img src={cert.badgeImage} alt={`${cert.issuer} logo`} />
-                  ) : (
-                    <span className="cert-initials">{getInitials(cert.issuer)}</span>
-                  )}
-                </div>
+                {/* Certificate Image Preview / Thumbnail */}
+                {cert.image && (
+                  <div
+                    className="cert-media-preview"
+                    onClick={() => setSelectedCert(cert)}
+                    title="Click to view full certificate"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedCert(cert);
+                      }
+                    }}
+                  >
+                    <img
+                      src={cert.image}
+                      alt={`${cert.title} Certificate`}
+                      loading="lazy"
+                    />
+                    <div className="cert-media-overlay">
+                      <span className="cert-expand-btn">
+                        <FiMaximize2 /> Preview
+                      </span>
+                    </div>
+                  </div>
+                )}
 
                 <div className="cert-body">
-                  {/* Mono label */}
-                  <p className="cert-label">
-                    <MdVerified className="cert-label-icon" aria-hidden="true" />
-                    CERTIFICATION
-                  </p>
+                  {/* Top meta row */}
+                  <div className="cert-meta-row">
+                    <p className="cert-label">
+                      <MdVerified className="cert-label-icon" aria-hidden="true" />
+                      CERTIFIED
+                    </p>
+                    <span className="cert-date">{cert.date}</span>
+                  </div>
 
                   <h3 className="cert-title">{cert.title}</h3>
 
@@ -225,17 +247,35 @@ const Certifications = () => {
                     <p className="cert-desc">{cert.description}</p>
                   )}
 
+                  {/* Skills badges */}
+                  {cert.skills && cert.skills.length > 0 && (
+                    <div className="cert-skills-wrap">
+                      {cert.skills.map((skill, sIdx) => (
+                        <span key={sIdx} className="cert-skill-tag">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="cert-footer">
-                    <span className="cert-date">{cert.date}</span>
+                    <button
+                      type="button"
+                      className="cert-view-btn"
+                      onClick={() => setSelectedCert(cert)}
+                    >
+                      <FiMaximize2 className="cert-link-icon" aria-hidden="true" />
+                      Inspect Certificate
+                    </button>
                     {cert.credentialUrl && (
                       <a
                         href={cert.credentialUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cert-link"
-                        aria-label={`View credential for ${cert.title}`}
+                        aria-label={`Open credential for ${cert.title}`}
                       >
-                        View Credential
+                        Open Full
                         <FiExternalLink className="cert-link-icon" aria-hidden="true" />
                       </a>
                     )}
@@ -246,6 +286,57 @@ const Certifications = () => {
           ))}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {selectedCert && (
+        <div
+          className="cert-modal-backdrop"
+          onClick={() => setSelectedCert(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedCert.title}
+        >
+          <div
+            className="cert-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="cert-modal-close"
+              onClick={() => setSelectedCert(null)}
+              aria-label="Close modal"
+            >
+              <FiX />
+            </button>
+
+            <div className="cert-modal-image-wrap">
+              <img
+                src={selectedCert.image || selectedCert.credentialUrl}
+                alt={selectedCert.title}
+                className="cert-modal-img"
+              />
+            </div>
+
+            <div className="cert-modal-footer">
+              <div className="cert-modal-info">
+                <h4>{selectedCert.title}</h4>
+                <p>
+                  {selectedCert.issuer} • {selectedCert.date}
+                </p>
+              </div>
+              {selectedCert.credentialUrl && (
+                <a
+                  href={selectedCert.credentialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cert-modal-open-btn"
+                >
+                  Open in New Tab <FiExternalLink />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
