@@ -16,11 +16,8 @@ interface LoadingType {
 export const LoadingContext = createContext<LoadingType | null>(null);
 
 export const LoadingProvider = ({ children }: PropsWithChildren) => {
-  const [isLoading, setIsLoading] = useState(() => {
-    // Skip loading on mobile
-    if (window.innerWidth <= 768) return false;
-    return true;
-  });
+  const isDesktop = typeof window !== "undefined" && window.innerWidth > 1024;
+  const [isLoading, setIsLoading] = useState(() => isDesktop);
   const [loading, setLoading] = useState(0);
 
   const value = {
@@ -28,9 +25,10 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
     setIsLoading,
     setLoading,
   };
+
   useEffect(() => {
-    // Auto-start animations on mobile since there's no 3D model
-    if (window.innerWidth <= 768) {
+    if (!isDesktop) {
+      // Auto-start animations on mobile/tablet since 3D model is not rendered
       import("../components/utils/initialFX").then((module) => {
         if (module.initialFX) {
           setTimeout(() => {
@@ -38,10 +36,30 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
           }, 100);
         }
       });
-    }
-  }, []);
+    } else {
+      // Progress simulation for desktop while 3D assets load
+      let current = 0;
+      const progressTimer = setInterval(() => {
+        current += Math.round(Math.random() * 8) + 2;
+        if (current >= 90) {
+          current = 90;
+          clearInterval(progressTimer);
+        }
+        setLoading((prev) => Math.max(prev, current));
+      }, 80);
 
-  useEffect(() => {}, [loading]);
+      // Failsafe timer: if 3D model or network takes too long or fails, force complete to 100%
+      const failsafeTimer = setTimeout(() => {
+        clearInterval(progressTimer);
+        setLoading(100);
+      }, 4000);
+
+      return () => {
+        clearInterval(progressTimer);
+        clearTimeout(failsafeTimer);
+      };
+    }
+  }, [isDesktop]);
 
   return (
     <LoadingContext.Provider value={value as LoadingType}>
