@@ -124,8 +124,8 @@ export const config = {
             title: "Accenture Technology Academy",
             issuer: "Accenture",
             date: "2025 – 2026",
-            image: "/images/certificates/accenture-academy.png",
-            credentialUrl: "/images/certificates/accenture-academy.png",
+            image: "/images/certificates/accenture-academy.webp",
+            credentialUrl: "/images/certificates/accenture-academy.webp",
             description: "Certificate of Completion for successfully completing the Accenture Technology Academy training program in Back End and Front End Development.",
             skills: ["Full Stack", "Front End", "Back End", "Enterprise Architecture"]
         },
@@ -134,8 +134,8 @@ export const config = {
             title: "Java Trial Session – CIRCUIT",
             issuer: "CURSOR • Batangas State University",
             date: "Nov 2025",
-            image: "/images/certificates/java-certificate.png",
-            credentialUrl: "/images/certificates/java-certificate.png",
+            image: "/images/certificates/java-certificate.webp",
+            credentialUrl: "/images/certificates/java-certificate.webp",
             description: "Certificate of Recognition for active participation and proficiency in the Java Trial Session of the CURSOR Initiative for Robotics, Coding, Uptraining, Innovation, & Talent.",
             skills: ["Java", "OOP", "Algorithms", "Software Engineering"]
         },
@@ -144,8 +144,8 @@ export const config = {
             title: "2nd Python Trial Session – CIRCUIT",
             issuer: "CURSOR • Batangas State University",
             date: "Nov 2025",
-            image: "/images/certificates/python-certificate.png",
-            credentialUrl: "/images/certificates/python-certificate.png",
+            image: "/images/certificates/python-certificate.webp",
+            credentialUrl: "/images/certificates/python-certificate.webp",
             description: "Certificate of Recognition for active participation and performance in the 2nd Python Trial Session of the CURSOR Initiative for Robotics, Coding, Uptraining, Innovation, & Talent.",
             skills: ["Python", "Data Structures", "Scripting", "Automation"]
         },
@@ -154,8 +154,8 @@ export const config = {
             title: "Robotics Trial Session – CIRCUIT",
             issuer: "CURSOR • Batangas State University",
             date: "Nov 2025",
-            image: "/images/certificates/robotics-certificate.png",
-            credentialUrl: "/images/certificates/robotics-certificate.png",
+            image: "/images/certificates/robotics-certificate.webp",
+            credentialUrl: "/images/certificates/robotics-certificate.webp",
             description: "Certificate of Recognition for active participation in the Robotics Trial Session organized by the Computer Engineering Students' Organization.",
             skills: ["Robotics", "Hardware-Software Integration", "Microcontrollers"]
         }

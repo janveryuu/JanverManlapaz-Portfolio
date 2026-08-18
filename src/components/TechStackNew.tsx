@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import "./styles/TechStackNew.css";
 
 interface TechItem {
@@ -7,7 +8,7 @@ interface TechItem {
 }
 
 // All tech stack items with their icons and official URLs
-// Perfect inverted pyramid: 12 -> 10 -> 8 -> 6 -> 4 -> 2
+// Perfect inverted pyramid: 10 -> 8 -> 6 -> 4 -> 2
 const techStack: TechItem[][] = [
   // Row 1 - 10 items (largest)
   [
@@ -57,16 +58,44 @@ const techStack: TechItem[][] = [
 ];
 
 const TechStackNew = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="techstack-new">
+    <div className="techstack-new" ref={containerRef}>
       {/* Video Background */}
       <div className="techstack-video-container">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
           className="techstack-video"
+          preload="none"
         >
           <source src="/video/video.webm" type="video/webm" />
         </video>
@@ -77,7 +106,7 @@ const TechStackNew = () => {
       {/* Content */}
       <div className="techstack-content">
         <h2>Tech Stack</h2>
-        
+
         <div className="techstack-pyramid">
           {techStack.map((row, rowIndex) => (
             <div key={rowIndex} className="techstack-row">
@@ -91,7 +120,7 @@ const TechStackNew = () => {
                   title={tech.name}
                   data-cursor="disable"
                 >
-                  <img src={tech.icon} alt={tech.name} />
+                  <img src={tech.icon} alt={tech.name} loading="lazy" width="32" height="32" />
                   <span>{tech.name}</span>
                 </a>
               ))}

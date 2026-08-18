@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./styles/Certifications.css";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { config, Certification } from "../config";
 import { FiExternalLink, FiMaximize2, FiX } from "react-icons/fi";
 import { MdVerified } from "react-icons/md";
@@ -9,18 +9,10 @@ import { MdVerified } from "react-icons/md";
 gsap.registerPlugin(ScrollTrigger);
 
 const Certifications = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const cardRefs = useRef<(HTMLElement | null)[]>([]);
-  const gsapCtx = useRef<gsap.Context | null>(null);
-
-  // State for image lightbox preview
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  const prefersReducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // Handle ESC key for modal
+  // Handle ESC key to close lightbox modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -39,250 +31,178 @@ const Certifications = () => {
     };
   }, [selectedCert]);
 
-  /* ---------- 3D TILT (desktop / non-touch only) ---------- */
+  // Horizontal Pin-Scroll with Reverse Direction (Mirrored counterpart to Work section)
   useEffect(() => {
-    if (prefersReducedMotion) return;
-    if (ScrollTrigger.isTouch === 1) return; // skip on touch
+    const isMobile = window.innerWidth <= 768;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
 
-    const rAFHandles: number[] = [];
+    if (isMobile || prefersReducedMotion) return;
 
-    cardRefs.current.forEach((card) => {
-      if (!card) return;
+    let translateX = 0;
 
-      let targetRx = 0;
-      let targetRy = 0;
-      let currentRx = 0;
-      let currentRy = 0;
-      let rafId: number;
+    function setTranslateX() {
+      const boxes = document.getElementsByClassName("cert-box");
+      const container = document.querySelector(".cert-container");
+      if (boxes.length === 0 || !container || !boxes[0].parentElement) return;
 
-      const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+      const rectLeft = container.getBoundingClientRect().left;
+      const rect = boxes[0].getBoundingClientRect();
+      const parentWidth = boxes[0].parentElement.getBoundingClientRect().width;
+      const padding = parseInt(window.getComputedStyle(boxes[0]).padding) / 2 || 0;
 
-      const animate = () => {
-        currentRx = lerp(currentRx, targetRx, 0.1);
-        currentRy = lerp(currentRy, targetRy, 0.1);
-        card.style.setProperty("--rx", `${currentRx}deg`);
-        card.style.setProperty("--ry", `${currentRy}deg`);
-        rafId = requestAnimationFrame(animate);
-      };
+      translateX = rect.width * boxes.length - (rectLeft + parentWidth) + padding;
+    }
 
-      const onMove = (e: MouseEvent) => {
-        const rect = card.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = (e.clientX - cx) / (rect.width / 2);
-        const dy = (e.clientY - cy) / (rect.height / 2);
-        targetRy = dx * 10;   // max ±10°
-        targetRx = -dy * 8;   // max ±8°
-      };
+    setTranslateX();
 
-      const onLeave = () => {
-        targetRx = 0;
-        targetRy = 0;
-      };
-
-      rafId = requestAnimationFrame(animate);
-      rAFHandles.push(rafId);
-
-      card.addEventListener("mousemove", onMove);
-      card.addEventListener("mouseleave", onLeave);
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".certifications-section",
+        start: "top top",
+        end: () => `+=${Math.max(translateX, 100)}`,
+        scrub: 1,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        id: "certifications",
+        invalidateOnRefresh: true,
+      },
     });
 
-    return () => {
-      rAFHandles.forEach(cancelAnimationFrame);
-      cardRefs.current.forEach((card) => {
-        if (!card) return;
-        card.removeEventListener("mousemove", () => {});
-        card.removeEventListener("mouseleave", () => {});
-      });
-    };
-  }, [prefersReducedMotion]);
+    // Reversed direction: starts shifted left at -translateX, scrolls rightwards to 0 as user scrolls down
+    timeline.fromTo(
+      ".cert-flex",
+      { x: -translateX },
+      {
+        x: 0,
+        ease: "none",
+      }
+    );
 
-  /* ---------- GSAP SCROLL ENTRANCE ---------- */
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    gsapCtx.current = gsap.context(() => {
-      // Cards stagger in
-      gsap.fromTo(
-        ".cert-card",
-        {
-          autoAlpha: 0,
-          y: prefersReducedMotion ? 0 : 50,
-          rotateX: prefersReducedMotion ? 0 : 12,
-        },
-        {
-          autoAlpha: 1,
-          y: 0,
-          rotateX: 0,
-          duration: prefersReducedMotion ? 0.01 : 0.85,
-          ease: "power3.out",
-          stagger: prefersReducedMotion ? 0 : 0.12,
-          scrollTrigger: {
-            trigger: ".certifications-section",
-            start: "top 70%",
-            toggleActions: "play pause resume reverse",
-            invalidateOnRefresh: true,
-          },
-        }
-      );
-    }, sectionRef);
+    // Refresh ScrollTrigger to sync measurements with the rest of the page
+    ScrollTrigger.refresh();
 
     return () => {
-      gsapCtx.current?.revert();
+      timeline.kill();
+      ScrollTrigger.getById("certifications")?.kill();
     };
-  }, [prefersReducedMotion]);
+  }, []);
 
   return (
-    <section
+    <div
+      className="certifications-section"
       id="certifications"
-      className="certifications-section section-container"
       ref={sectionRef}
     >
-      <div className="cert-container">
-        <div className="cert-header-row">
-          <div>
-            <h2 className="title cert-heading">
-              Certifications <span>&amp;</span>
-              <br />
-              Credentials
-            </h2>
-          </div>
-          <div className="cert-subtitle-wrap">
-            <p className="cert-subtitle">
-              Verified certifications, academy completions, and technical awards in software development, cloud systems, and engineering.
-            </p>
-          </div>
+      <div className="cert-container section-container">
+        <div className="cert-header">
+          <h2>
+            Certifications <span>&amp;</span> Credentials
+          </h2>
         </div>
 
-        <div className="cert-grid">
+        <div className="cert-flex">
           {(config.certifications as Certification[]).map((cert, index) => (
-            <article
-              key={cert.id}
-              className="cert-card"
-              ref={(el: HTMLElement | null) => {
-                cardRefs.current[index] = el;
-              }}
-              tabIndex={0}
-              aria-label={`${cert.title} issued by ${cert.issuer}`}
-            >
-              {/* Blueprint dashed border — top + bottom SVG lines */}
-              <div className="cert-border-h">
-                <svg width="100%" height="100%" aria-hidden="true">
-                  <line
-                    x1="0" y1="0" x2="100%" y2="0"
-                    stroke="white" strokeWidth="1.5" strokeDasharray="6,6"
-                  />
-                  <line
-                    x1="0" y1="100%" x2="100%" y2="100%"
-                    stroke="white" strokeWidth="1.5" strokeDasharray="6,6"
-                  />
-                </svg>
-              </div>
+            <div className="cert-box" key={cert.id}>
+              <article
+                className="cert-card"
+                tabIndex={0}
+                aria-label={`${cert.title} issued by ${cert.issuer}`}
+              >
+                {/* Corner brackets */}
+                <span className="cert-corner cert-corner-tl" aria-hidden="true" />
+                <span className="cert-corner cert-corner-tr" aria-hidden="true" />
+                <span className="cert-corner cert-corner-bl" aria-hidden="true" />
+                <span className="cert-corner cert-corner-br" aria-hidden="true" />
 
-              {/* Blueprint dashed border — left + right SVG lines */}
-              <div className="cert-border-v">
-                <svg width="100%" height="100%" aria-hidden="true">
-                  <line
-                    x1="0" y1="0" x2="0" y2="100%"
-                    stroke="white" strokeWidth="1.5" strokeDasharray="6,6"
-                  />
-                  <line
-                    x1="100%" y1="0" x2="100%" y2="100%"
-                    stroke="white" strokeWidth="1.5" strokeDasharray="6,6"
-                  />
-                </svg>
-              </div>
-
-              {/* Corner brackets */}
-              <span className="cert-corner cert-corner-tl" aria-hidden="true" />
-              <span className="cert-corner cert-corner-tr" aria-hidden="true" />
-              <span className="cert-corner cert-corner-bl" aria-hidden="true" />
-              <span className="cert-corner cert-corner-br" aria-hidden="true" />
-
-              {/* Card body */}
-              <div className="cert-inner">
-                {/* Certificate Image Preview / Thumbnail */}
-                {cert.image && (
-                  <div
-                    className="cert-media-preview"
-                    onClick={() => setSelectedCert(cert)}
-                    title="Click to view full certificate"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setSelectedCert(cert);
-                      }
-                    }}
-                  >
-                    <img
-                      src={cert.image}
-                      alt={`${cert.title} Certificate`}
-                      loading="lazy"
-                    />
-                    <div className="cert-media-overlay">
-                      <span className="cert-expand-btn">
-                        <FiMaximize2 /> Preview
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                <div className="cert-body">
-                  {/* Top meta row */}
-                  <div className="cert-meta-row">
-                    <p className="cert-label">
-                      <MdVerified className="cert-label-icon" aria-hidden="true" />
-                      CERTIFIED
-                    </p>
-                    <span className="cert-date">{cert.date}</span>
-                  </div>
-
-                  <h3 className="cert-title">{cert.title}</h3>
-
-                  <p className="cert-issuer">{cert.issuer}</p>
-
-                  {cert.description && (
-                    <p className="cert-desc">{cert.description}</p>
-                  )}
-
-                  {/* Skills badges */}
-                  {cert.skills && cert.skills.length > 0 && (
-                    <div className="cert-skills-wrap">
-                      {cert.skills.map((skill, sIdx) => (
-                        <span key={sIdx} className="cert-skill-tag">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="cert-footer">
-                    <button
-                      type="button"
-                      className="cert-view-btn"
+                {/* Card Inner Content */}
+                <div className="cert-inner">
+                  {/* Certificate Image Thumbnail Preview */}
+                  {cert.image && (
+                    <div
+                      className="cert-media-preview"
                       onClick={() => setSelectedCert(cert)}
+                      title="Click to inspect full certificate"
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedCert(cert);
+                        }
+                      }}
                     >
-                      <FiMaximize2 className="cert-link-icon" aria-hidden="true" />
-                      Inspect Certificate
-                    </button>
-                    {cert.credentialUrl && (
-                      <a
-                        href={cert.credentialUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="cert-link"
-                        aria-label={`Open credential for ${cert.title}`}
-                      >
-                        Open Full
-                        <FiExternalLink className="cert-link-icon" aria-hidden="true" />
-                      </a>
+                      <img
+                        src={cert.image}
+                        alt={`${cert.title} Certificate`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div className="cert-media-overlay">
+                        <span className="cert-expand-btn">
+                          <FiMaximize2 /> Inspect
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="cert-body">
+                    {/* Meta row */}
+                    <div className="cert-meta-row">
+                      <p className="cert-label">
+                        <MdVerified className="cert-label-icon" aria-hidden="true" />
+                        CERTIFIED • 0{index + 1}
+                      </p>
+                      <span className="cert-date">{cert.date}</span>
+                    </div>
+
+                    <h3 className="cert-title">{cert.title}</h3>
+                    <p className="cert-issuer">{cert.issuer}</p>
+
+                    {cert.description && (
+                      <p className="cert-desc">{cert.description}</p>
                     )}
+
+                    {/* Skill Tags */}
+                    {cert.skills && cert.skills.length > 0 && (
+                      <div className="cert-skills-wrap">
+                        {cert.skills.map((skill, sIdx) => (
+                          <span key={sIdx} className="cert-skill-tag">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Card Actions */}
+                    <div className="cert-footer">
+                      <button
+                        type="button"
+                        className="cert-view-btn"
+                        onClick={() => setSelectedCert(cert)}
+                      >
+                        <FiMaximize2 className="cert-link-icon" aria-hidden="true" />
+                        Inspect Certificate
+                      </button>
+                      {cert.credentialUrl && (
+                        <a
+                          href={cert.credentialUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cert-link"
+                          aria-label={`Open credential for ${cert.title}`}
+                        >
+                          Open Full
+                          <FiExternalLink className="cert-link-icon" aria-hidden="true" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </article>
+              </article>
+            </div>
           ))}
         </div>
       </div>
@@ -337,7 +257,7 @@ const Certifications = () => {
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 };
 
