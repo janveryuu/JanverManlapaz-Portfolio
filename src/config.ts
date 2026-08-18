@@ -14,8 +14,8 @@ export const config = {
     developer: {
         name: "Janver",
         fullName: "Janver Manlapaz",
-        title: "Full Stack Developer | Big Data & Cloud Architecture",
-        description: "Full Stack Developer specializing in front-end and back-end web application development. Focused on architecting scalable SaaS products and robust, data-driven systems."
+        title: "Full Stack Developer | AI Engineer",
+        description: "Full Stack Developer and AI Engineer specializing in building scalable web applications, intelligent products, and integrating LLM-driven features end-to-end."
     },
     social: {
         github: "janveryuu",
@@ -24,7 +24,7 @@ export const config = {
     },
     about: {
         title: "About Me",
-        description: "I am a Full Stack Software Engineer with 3+ years of experience designing and shipping scalable web applications end-to-end — from architecture through deployment. I specialize in building robust SaaS products and data-driven systems, with hands-on expertise across React, TypeScript, Node.js, and modern cloud infrastructure. Adept at applying strong RESTful API design and Object-Oriented Programming principles, I thrive on solving complex technical challenges to deliver seamless, high-performance user experiences from initial concept to final deployment."
+        description: "I am a Full Stack Software Engineer and AI Engineer with 3+ years of experience designing and shipping scalable web applications and intelligent systems end-to-end — from architecture through deployment. I specialize in building robust SaaS products and AI-powered workflows, with hands-on expertise across React, TypeScript, Node.js, and modern LLM integrations. Adept at applying strong RESTful API design and Object-Oriented Programming principles, I thrive on solving complex technical challenges to deliver seamless, high-performance user experiences from initial concept to final deployment."
     },
     experiences: [
         {
@@ -112,10 +112,10 @@ export const config = {
             tools: ["React", "Next.js", "Node.js", "TypeScript", "MongoDB", "Tailwind CSS", "MySQL"]
         },
         design: {
-            title: "BIG DATA & CLOUD",
-            description: "Cloud architecture & data-driven system design",
-            details: "Architecting scalable, data-driven systems using modern DevOps tooling. Experienced with database design, CI/CD pipelines, containerization, and cloud deployment workflows.",
-            tools: ["Supabase", "Vercel", "AWS", "Google Cloud", "Hadoop", "Python"]
+            title: "AI ENGINEER",
+            description: "Applied AI systems & intelligent product integration",
+            details: "Engineering hands-on AI features and production-ready intelligent workflows. Experienced in integrating high-performance LLM APIs, building automated AI pipelines, prompt engineering, and deploying AI-assisted web applications end-to-end.",
+            tools: ["Groq", "LLaMA 3", "Gemini", "LLM Integration", "Prompt Engineering", "Python"]
         }
     },
     certifications: [

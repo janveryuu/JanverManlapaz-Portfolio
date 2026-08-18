@@ -6,14 +6,14 @@ A modern, high-performance **3D developer portfolio website** built with **React
 
 ## 👨‍💻 About Me
 
-I am Janver Manlapaz, a third-year Computer Engineering student and Full-Stack Developer specializing in front-end and back-end web application development. I have a strong focus on architecting scalable SaaS products and robust, data-driven systems.
+I am Janver Manlapaz, a third-year Computer Engineering student, Full-Stack Developer, and AI Engineer specializing in front-end and back-end web application development. I have a strong focus on architecting scalable SaaS products, intelligent systems, and integrating LLM-driven features end-to-end.
 
 ## ✨ Highlights
 
 - **3D / WebGL experience** powered by **Three.js**
 - Smooth animations with **GSAP**
 - Modern **React + TypeScript** codebase
-- Integrated **AI Chat System** powered by Groq LLaMA 3
+- Integrated **AI Chat System** powered by Groq LLaMA 3.3
 - Fast, responsive UI (desktop + mobile)
 
 ## 🧰 Tech Stack
@@ -24,6 +24,7 @@ I am Janver Manlapaz, a third-year Computer Engineering student and Full-Stack D
 - **Node.js** & **Express**
 - **Prisma**, **PostgreSQL**, **MongoDB**
 - **Tailwind CSS**
+- **Groq, LLaMA 3 & Gemini AI Integrations**
 
 ## 🚀 Getting Started
 
