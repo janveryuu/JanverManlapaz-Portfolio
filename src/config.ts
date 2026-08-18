@@ -130,6 +130,16 @@ export const config = {
             skills: ["Full Stack", "Front End", "Back End", "Enterprise Architecture"]
         },
         {
+            id: "udemy-bootcamp-2026",
+            title: "The Complete Full-Stack Web Development Bootcamp",
+            issuer: "Udemy • Dr. Angela Yu",
+            date: "July 2026",
+            image: "/images/certificates/udemy-bootcamp.webp",
+            credentialUrl: "https://ude.my/UC-4989001f-0602-4269-8105-d70f3ba88ebc",
+            description: "176-hour comprehensive full-stack engineering bootcamp covering modern web architectures, React, Node.js, databases, REST APIs, and production deployment.",
+            skills: ["Full Stack", "React", "Node.js", "PostgreSQL", "REST APIs"]
+        },
+        {
             id: "circuit-java-2025",
             title: "Java Trial Session – CIRCUIT",
             issuer: "CURSOR • Batangas State University",
