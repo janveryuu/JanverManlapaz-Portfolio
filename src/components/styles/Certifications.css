@@ -1,12 +1,14 @@
 /* ============================================================
-   CERTIFICATIONS SECTION — Horizontal Pin-Scroll Gallery
-   Matches Work.css interaction, alternating boxes, and styling
+   CERTIFICATIONS SECTION — Reversed Horizontal Pin-Scroll Gallery
+   Opposite direction to Work section (starts on right, scrolls to left).
    ============================================================ */
 
 .certifications-section h2 {
   margin-top: 100px;
   font-size: 70px;
   font-weight: 500;
+  text-align: right;
+  margin-right: 20px;
 }
 
 .certifications-section h2 > span {
@@ -31,10 +33,12 @@
 .cert-flex {
   width: 100%;
   display: flex;
+  flex-direction: row-reverse;
   height: 100%;
-  margin-left: -80px;
-  padding-right: 120px;
+  margin-right: -80px;
+  padding-left: 120px;
   position: relative;
+  justify-content: flex-start;
 }
 
 .cert-box {
@@ -43,7 +47,7 @@
   flex-direction: column;
   width: 600px;
   box-sizing: border-box;
-  border-right: 1px solid #363636;
+  border-left: 1px solid #363636;
   flex-shrink: 0;
   gap: 40px;
   justify-content: start;
@@ -344,8 +348,8 @@
   }
 
   .cert-flex {
-    margin-left: -50px;
-    padding-right: 75px;
+    margin-right: -50px;
+    padding-left: 75px;
   }
 
   .certifications-section h2 {
@@ -372,8 +376,8 @@
 
   .cert-flex {
     flex-direction: column;
-    margin-left: 0;
-    padding-right: 0;
+    margin-right: 0;
+    padding-left: 0;
     gap: 0;
   }
 
@@ -381,7 +385,7 @@
     width: 100%;
     max-width: 100%;
     padding: 30px 15px;
-    border-right: none;
+    border-left: none;
     border-bottom: 1px solid #363636;
     gap: 20px;
   }
@@ -398,6 +402,8 @@
     font-size: 36px;
     margin-top: 50px;
     margin-bottom: 20px;
+    text-align: left;
+    margin-right: 0;
   }
 
   .cert-title h3 {

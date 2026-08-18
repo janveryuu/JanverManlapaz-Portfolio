@@ -66,8 +66,9 @@ const Certifications = () => {
       },
     });
 
+    // Reversed horizontal scroll: translates +translateX (starts at right, scrolls to left)
     timeline.to(".cert-flex", {
-      x: -translateX,
+      x: translateX,
       ease: "none",
     });
 
