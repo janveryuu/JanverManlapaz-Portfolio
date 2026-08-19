@@ -183,9 +183,9 @@ const Certifications = () => {
                   {selectedCert.issuer} • {selectedCert.date}
                 </p>
               </div>
-              {selectedCert.credentialUrl && (
+              {(selectedCert.image || selectedCert.credentialUrl) && (
                 <a
-                  href={selectedCert.credentialUrl}
+                  href={selectedCert.image || selectedCert.credentialUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cert-modal-open-btn"
