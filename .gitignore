@@ -1,22 +1,37 @@
-# Logs
-logs
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production & Build Output
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Logs & Debugging
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+build_output.txt
+build_errors.txt
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# Editor & IDE files
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
@@ -24,7 +39,24 @@ dist-ssr
 *.sw?
 .npmrc
 
-backup/
-.env
-redoxchess-engine/
+# OS System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Archives & Temporary Recordings
+*.zip
+*.tar.gz
+*.rar
+*.webm
+*.tmp
+
+# Deployment & Local Backups
 .vercel
+backup/
+redoxchess-engine/
