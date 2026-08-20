@@ -28,6 +28,21 @@ export const config = {
     },
     experiences: [
         {
+            position: "AI Engineer",
+            company: "Freelance",
+            period: "June 2025 - Present",
+            location: "Remote",
+            description: "Architecting and deploying production-grade AI systems and LLM-powered applications for diverse clients end-to-end. Engineered real-time conversational AI agents using Groq and LLaMA 3, built intelligent automation pipelines with advanced prompt engineering, and integrated AI-driven features into full-stack web products — reducing manual workloads by up to 70% and delivering measurably smarter user experiences.",
+            responsibilities: [
+                "Designed and deployed intelligent LLM-powered applications using Groq, LLaMA 3, and Gemini APIs, delivering sub-200ms inference response times in production",
+                "Built end-to-end AI automation pipelines and agentic workflows, reducing client manual workloads by up to 70%",
+                "Engineered advanced prompt systems and context-aware retrieval architectures to maximize model accuracy and relevance",
+                "Integrated AI-driven features seamlessly into full-stack web products using React, Next.js, and Node.js with Vercel serverless infrastructure",
+                "Delivered AI-powered tools across SaaS, productivity, and lifestyle verticals — from conversational chatbots to intelligent data processing systems"
+            ],
+            technologies: ["Groq", "LLaMA 3", "Gemini", "Python", "LLM Integration", "Prompt Engineering", "React", "Node.js", "Vercel", "TypeScript"]
+        },
+        {
             position: "Full Stack Developer",
             company: "Freelance",
             period: "January 2025 - Present",
