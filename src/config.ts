@@ -28,6 +28,21 @@ export const config = {
     },
     experiences: [
         {
+            position: "Full Stack Developer Intern",
+            company: "Certicode",
+            period: "July 2026 - Present",
+            location: "Remote",
+            description: "Contributing to Vetmates — a large-scale, full-stack platform redefining veterinary care for pet owners across the Philippines. Building and integrating core features across the web application and mobile app, including verified vet booking, digital medical record tracking, and a trusted pet community hub — delivering seamless, compassionate experiences for every pet and their owner.",
+            responsibilities: [
+                "Developing full-stack features for the Vetmates platform — a comprehensive veterinary care ecosystem covering web, mobile, and community experiences",
+                "Building responsive, user-friendly interfaces with React and TypeScript, ensuring accessibility and performance across all devices",
+                "Collaborating with a cross-functional team on backend API design and database architecture to support real-time vet booking and pet health record management",
+                "Contributing to mobile application development and end-to-end feature delivery from design handoff to production deployment",
+                "Participating in agile sprint planning, code reviews, and team-wide engineering discussions to continuously improve product quality"
+            ],
+            technologies: ["React", "TypeScript", "Node.js", "Mobile Development", "REST APIs", "PostgreSQL", "Git", "Agile"]
+        },
+        {
             position: "AI Engineer",
             company: "Freelance",
             period: "June 2025 - Present",
