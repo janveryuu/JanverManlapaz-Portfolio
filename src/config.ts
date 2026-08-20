@@ -105,7 +105,7 @@ export const config = {
             technologies: "Next.js, TypeScript, Supabase, Groq, Gemini AI, Framer Motion, Tailwind CSS, Vercel",
             image: "/images/dormosaur-logo.png",
             description: "Architected and shipped Dormosaur — a full-stack AI-powered SaaS platform built for dorm life. Students paste their raw, messy class schedules and the app uses Gemini AI to instantly generate a clean, beautiful timetable with auto-synced alarms for every class. Features a Kitchen module with AI-suggested dorm-friendly recipes, a Deadline tracker, an Admin dashboard, push notification cron jobs, and full authentication — all built on Next.js 16, Supabase, and deployed on Vercel.",
-            link: "https://github.com/janveryuu/dormosaur"
+            link: "https://dormosaur.vercel.app"
         },
         {
             id: 3,
