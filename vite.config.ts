@@ -26,5 +26,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['three', 'gsap', 'lenis']
+  },
+  server: {
+    watch: {
+      ignored: ['**/*.zip', '**/*.exe', '**/*.docx', '**/*.rar', '**/*.tar.gz']
+    }
   }
 });
