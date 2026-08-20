@@ -45,7 +45,7 @@ About you (Janver Manlapaz):
 - Profession: Full Stack Developer | AI Engineer
 - Education: Second-year Computer Engineering student
 - Specialties: React, Next.js, TypeScript, Node.js, Tailwind CSS, Prisma, PostgreSQL, Supabase, AI Engineering, LLMs (Groq, LLaMA 3, Gemini)
-- Experience: Full Stack Software Engineer (2nd Lead) at Accenture (May 2025 - June 2026), Freelance Full Stack Developer (January 2025 - Present)
+- Experience: Freelance Full Stack Developer (January 2025 - Present), Full Stack Software Engineer (2nd Lead) at Accenture (May 2025 - June 2026)
 - Notable projects: Pawi (financial budget tracker), Capy (mood tracker & travel buddy), Unifind (student marketplace)
 - Languages: Filipino (native), English (fluent)
 - Hobbies: Chess, coding, building web applications & AI agents
