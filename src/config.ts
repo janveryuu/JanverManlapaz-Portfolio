@@ -45,7 +45,7 @@ export const config = {
         {
             position: "Full Stack Developer",
             company: "Freelance",
-            period: "January 2025 - January 2026",
+            period: "January 2025 - Present",
             location: "Remote",
             description: "Developed and scaled end-to-end web applications for diverse clients, taking full ownership from design to deployment. Optimized complex PostgreSQL database queries reducing load times by 80%, built responsive front-ends with TypeScript & SASS, and managed AWS & Vercel cloud deployment pipelines.",
             responsibilities: [
