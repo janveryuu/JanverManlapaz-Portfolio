@@ -14,22 +14,33 @@ import CallToAction from "./CallToAction";
 import setSplitText from "./utils/splitText";
 
 const MainContainer = ({ children }: PropsWithChildren) => {
-  const [isDesktopView, setIsDesktopView] = useState<boolean>(
-    window.innerWidth > 1024
+  const [isDesktopView, setIsDesktopView] = useState<boolean>(() =>
+    typeof window !== "undefined" ? window.innerWidth > 1024 : true
   );
-  const [isMobile] = useState<boolean>(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState<boolean>(() =>
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false
+  );
 
   useEffect(() => {
+    let timeoutId: number;
+
     const resizeHandler = () => {
-      setSplitText();
-      setIsDesktopView(window.innerWidth > 1024);
+      clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        const width = window.innerWidth;
+        setIsDesktopView(width > 1024);
+        setIsMobile(width <= 768);
+        setSplitText();
+      }, 150);
     };
-    resizeHandler();
+
+    setSplitText();
     window.addEventListener("resize", resizeHandler);
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("resize", resizeHandler);
     };
-  }, [isDesktopView]);
+  }, []);
 
   return (
     <div className="container-main">
@@ -37,17 +48,15 @@ const MainContainer = ({ children }: PropsWithChildren) => {
       <Navbar />
       <SocialIcons />
       {isDesktopView && !isMobile && children}
-      <div className="container-main">
-        <Landing />
-        <About />
-        <WhatIDo />
-        <Career />
-        <Certifications />
-        <Work />
-        <TechStackNew />
-        <CallToAction />
-        <Contact />
-      </div>
+      <Landing />
+      <About />
+      <WhatIDo />
+      <Career />
+      <Certifications />
+      <Work />
+      <TechStackNew />
+      <CallToAction />
+      <Contact />
     </div>
   );
 };

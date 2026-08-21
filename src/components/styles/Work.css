@@ -30,6 +30,8 @@
   margin-left: -80px;
   padding-right: 120px;
   position: relative;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .work-box {

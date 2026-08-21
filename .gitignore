@@ -49,12 +49,15 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# Archives & Temporary Recordings
+# Archives & Temporary Recordings / Binaries
 *.zip
 *.tar.gz
 *.rar
 *.webm
 *.tmp
+*.exe
+*.docx
+new sched.png
 
 # Deployment & Local Backups
 .vercel

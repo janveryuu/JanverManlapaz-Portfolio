@@ -57,56 +57,68 @@ const Navbar = () => {
     }
 
     // Initialize Lenis smooth scroll (desktop only)
-    lenis = new Lenis({
-      duration: 1.7,
+    const lenisInstance = new Lenis({
+      duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1.7,
-      touchMultiplier: 2,
+      wheelMultiplier: 1.2,
+      touchMultiplier: 1.5,
       infinite: false,
     });
+    lenis = lenisInstance;
 
     // Start paused — will be started by initialFX after loading screen
-    lenis.stop();
+    lenisInstance.stop();
 
-    // Handle smooth scroll animation frame
-    function raf(time: number) {
-      lenis?.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+    // Synchronize Lenis with GSAP ScrollTrigger
+    lenisInstance.on("scroll", ScrollTrigger.update);
+
+    // Bind Lenis animation frame directly to GSAP ticker for 60-120fps stutter-free sync
+    const updateTicker = (time: number) => {
+      lenisInstance.raf(time * 1000);
+    };
+    gsap.ticker.add(updateTicker);
+    gsap.ticker.lagSmoothing(0);
 
     // Handle desktop navigation link clicks with smooth Lenis scroll
-    let links = document.querySelectorAll(".header ul a");
-    links.forEach((elem) => {
-      let element = elem as HTMLAnchorElement;
-      element.addEventListener("click", (e) => {
-        if (window.innerWidth > 1024) {
-          e.preventDefault();
-          let elem = e.currentTarget as HTMLAnchorElement;
-          let section = elem.getAttribute("data-href");
-          if (section && lenis) {
-            const target = document.querySelector(section) as HTMLElement;
-            if (target) {
-              lenis.scrollTo(target, {
-                offset: 0,
-                duration: 1.5,
-              });
-            }
+    const links = document.querySelectorAll(".header ul a");
+    const handleLinkClick = (e: Event) => {
+      if (window.innerWidth > 1024) {
+        e.preventDefault();
+        const elem = e.currentTarget as HTMLAnchorElement;
+        const section = elem.getAttribute("data-href");
+        if (section && lenis) {
+          const target = document.querySelector(section) as HTMLElement;
+          if (target) {
+            lenis.scrollTo(target, {
+              offset: 0,
+              duration: 1.4,
+              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            });
           }
         }
-      });
+      }
+    };
+
+    links.forEach((elem) => {
+      elem.addEventListener("click", handleLinkClick);
     });
 
     // Handle resize
-    window.addEventListener("resize", () => {
-      lenis?.resize();
-    });
+    const handleResize = () => {
+      lenisInstance.resize();
+    };
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      lenis?.destroy();
+      gsap.ticker.remove(updateTicker);
+      links.forEach((elem) => {
+        elem.removeEventListener("click", handleLinkClick);
+      });
+      window.removeEventListener("resize", handleResize);
+      lenisInstance.destroy();
       lenis = null;
     };
   }, []);

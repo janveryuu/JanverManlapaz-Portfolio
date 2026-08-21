@@ -37,6 +37,36 @@ body {
   overflow: hidden;
 }
 
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b080c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(194, 164, 255, 0.22);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(194, 164, 255, 0.45);
+}
+
+/* Global GPU composition optimization */
+.work-box,
+.cert-box,
+.career-info-box,
+.techstack-item,
+.character-model {
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+}
+
 /* Mobile: Allow native scrolling + prevent horizontal overflow */
 @media only screen and (max-width: 768px) {
   html {

@@ -19,7 +19,7 @@ const Scene = () => {
   const sceneRef = useRef(new THREE.Scene());
   const { setLoading } = useLoading();
 
-  const [character, setChar] = useState<THREE.Object3D | null>(null);
+  const [, setChar] = useState<THREE.Object3D | null>(null);
 
   useEffect(() => {
     if (!canvasDiv.current) return;
@@ -55,8 +55,10 @@ const Scene = () => {
     let progress = setProgress((value) => setLoading(value));
     const { loadCharacter } = setCharacter(renderer, scene, camera);
 
+    let loadedCharRef: THREE.Object3D | null = null;
+
     const onWindowResize = () => {
-      handleResize(renderer, camera, canvasDiv, character!);
+      handleResize(renderer, camera, canvasDiv, loadedCharRef);
     };
 
     loadCharacter()
@@ -66,6 +68,7 @@ const Scene = () => {
           hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
           mixer = animations.mixer;
           let loadedChar = gltf.scene;
+          loadedCharRef = loadedChar;
           setChar(loadedChar);
           scene.add(loadedChar);
           headBone = loadedChar.getObjectByName("spine006") || null;
@@ -176,8 +179,22 @@ const Scene = () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       document.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onWindowResize);
+
+      // Clean up Three.js scene geometries and materials to free GPU memory
+      scene.traverse((obj) => {
+        if ((obj as THREE.Mesh).isMesh) {
+          const mesh = obj as THREE.Mesh;
+          mesh.geometry?.dispose();
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((mat) => mat.dispose());
+          } else if (mesh.material) {
+            mesh.material.dispose();
+          }
+        }
+      });
       scene.clear();
       renderer.dispose();
+
       if (canvasDiv.current && renderer.domElement.parentNode === canvasDiv.current) {
         canvasDiv.current.removeChild(renderer.domElement);
       }

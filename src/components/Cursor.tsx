@@ -61,9 +61,23 @@ const Cursor = () => {
       item.addEventListener("mouseout", handleMouseOut);
     });
 
+    const onMouseLeave = () => {
+      if (cursor) cursor.style.opacity = "0";
+    };
+
+    const onMouseEnter = () => {
+      if (cursor) cursor.style.opacity = "1";
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseleave", onMouseLeave);
+    document.addEventListener("mouseenter", onMouseEnter);
+
     return () => {
       cancelAnimationFrame(rafId);
       document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseleave", onMouseLeave);
+      document.removeEventListener("mouseenter", onMouseEnter);
       cursorElements.forEach((item) => {
         item.removeEventListener("mouseover", handleMouseOver);
         item.removeEventListener("mouseout", handleMouseOut);
