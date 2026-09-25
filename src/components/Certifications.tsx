@@ -93,7 +93,7 @@ const Certifications = () => {
             <div className="cert-box" key={cert.id}>
               <div className="cert-info">
                 <div className="cert-title">
-                  <h3>0{index + 1}</h3>
+                  <h3>{String(index + 1).padStart(2, "0")}</h3>
 
                   <div>
                     <h4>{cert.title}</h4>

@@ -170,6 +170,46 @@ export const config = {
             skills: ["Full Stack", "React", "Node.js", "PostgreSQL", "REST APIs"]
         },
         {
+            id: "nvidia-genai-2026",
+            title: "AI for All: From Basics to GenAI Practice",
+            issuer: "NVIDIA Academy",
+            date: "September 2026",
+            image: "/images/certificates/nvidia-genai.webp",
+            credentialUrl: "/images/certificates/nvidia-genai.webp",
+            description: "Certified in foundational and generative AI principles by NVIDIA Academy, covering transformer architectures, prompt engineering, generative models, and enterprise GenAI application workflows.",
+            skills: ["Generative AI", "Deep Learning", "LLMs", "Prompt Engineering", "NVIDIA AI"]
+        },
+        {
+            id: "microsoft-ai-skills-2026",
+            title: "Microsoft AI Skills Challenge",
+            issuer: "Microsoft • Microsoft Learn",
+            date: "September 2026",
+            image: "/images/certificates/microsoft-ai-skills.webp",
+            credentialUrl: "/images/certificates/microsoft-ai-skills.webp",
+            description: "Awarded for mastering core artificial intelligence domains, Microsoft Azure AI services, machine learning concepts, and responsible AI practices under the Microsoft Learn initiative.",
+            skills: ["Azure AI", "Machine Learning", "Cloud AI Services", "Responsible AI", "Cognitive Services"]
+        },
+        {
+            id: "oracle-oci-ai-foundations-2026",
+            title: "Oracle Cloud Infrastructure 2026 AI Certified Foundations Associate",
+            issuer: "Oracle University",
+            date: "September 2026",
+            image: "/images/certificates/oracle-ai-foundations.webp",
+            credentialUrl: "/images/certificates/oracle-ai-foundations.webp",
+            description: "Official Oracle Corporation certification validating proficiency in Oracle Cloud Infrastructure (OCI) AI architecture, machine learning models, generative AI services, and cloud computing fundamentals.",
+            skills: ["Oracle Cloud (OCI)", "OCI AI Services", "Machine Learning", "Cloud Architecture", "Generative AI"]
+        },
+        {
+            id: "dict-python-intermediate-2026",
+            title: "Programming for Intermediate Users Using Python",
+            issuer: "DICT • Modern Academics Convergence Hub (MACH)",
+            date: "August 2026",
+            image: "/images/certificates/dict-python-intermediate.webp",
+            credentialUrl: "/images/certificates/dict-python-intermediate.webp",
+            description: "Credential awarded by the Department of Information and Communications Technology (DICT) covering intermediate Python programming, object-oriented concepts, algorithmic problem solving, and data manipulation.",
+            skills: ["Python", "OOP", "Data Structures", "Algorithms", "Backend Scripting"]
+        },
+        {
             id: "circuit-java-2025",
             title: "Java Trial Session – CIRCUIT",
             issuer: "CURSOR • Batangas State University",
