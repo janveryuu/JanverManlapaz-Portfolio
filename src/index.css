@@ -34,7 +34,25 @@ h6 {
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
+}
+
+/* While loading screen is active on home page, lock body scroll */
+body:has(.loading-screen) {
+  overflow: hidden !important;
+}
+
+/* Multi-page standalone routes: ensure full vertical scrollability */
+body:has(.myworks-page),
+body:has(.mycerts-page),
+body:has(.play-container),
+html:has(.myworks-page),
+html:has(.mycerts-page),
+html:has(.play-container) {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+  min-height: 100% !important;
 }
 
 /* Custom premium scrollbar */

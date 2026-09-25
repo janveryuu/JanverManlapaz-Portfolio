@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useState } from "react";
 import { config, Certification } from "../config";
+import { Link } from "react-router-dom";
 import { MdArrowOutward } from "react-icons/md";
 import { FiX, FiExternalLink } from "react-icons/fi";
 
@@ -89,7 +90,7 @@ const Certifications = () => {
           My <span>Certifications</span>
         </h2>
         <div className="cert-flex">
-          {(config.certifications as Certification[]).map((cert, index) => (
+          {(config.certifications as Certification[]).slice(0, 7).map((cert, index) => (
             <div className="cert-box" key={cert.id}>
               <div className="cert-info">
                 <div className="cert-title">
@@ -144,6 +145,17 @@ const Certifications = () => {
               </div>
             </div>
           ))}
+
+          {/* See All Certificates CTA Box */}
+          <div className="cert-box cert-box-cta">
+            <div className="see-all-certs">
+              <h3>Want to see more?</h3>
+              <p>Explore all of my credentials and certifications</p>
+              <Link to="/certificates" className="see-all-btn" data-cursor="disable">
+                See All Certificates →
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 

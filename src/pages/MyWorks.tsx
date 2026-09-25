@@ -1,8 +1,29 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { config } from "../config";
 import "./MyWorks.css";
 
 const MyWorks = () => {
+  useEffect(() => {
+    // Explicitly unlock scrolling across all devices and reset scroll position to top
+    document.body.style.overflow = "auto";
+    document.body.style.overflowY = "auto";
+    document.body.style.overflowX = "hidden";
+    document.documentElement.style.overflow = "auto";
+    document.documentElement.style.overflowY = "auto";
+    document.documentElement.style.overflowX = "hidden";
+    window.scrollTo(0, 0);
+
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.overflowY = "";
+      document.body.style.overflowX = "";
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.overflowY = "";
+      document.documentElement.style.overflowX = "";
+    };
+  }, []);
+
   return (
     <div className="myworks-page">
       <div className="myworks-header">

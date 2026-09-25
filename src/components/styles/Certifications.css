@@ -420,4 +420,60 @@
   .cert-image-in img {
     max-height: 200px;
   }
+
+  .cert-box-cta {
+    padding: 60px 20px;
+    border-left: none;
+    border-bottom: 1px solid #363636;
+  }
+}
+
+/* See All Certificates CTA Box */
+.cert-box-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #363636;
+}
+
+.see-all-certs {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.see-all-certs h3 {
+  font-size: 32px;
+  font-weight: 500;
+  color: #fff;
+  margin: 0;
+}
+
+.see-all-certs p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 260px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.see-all-btn {
+  display: inline-block;
+  padding: 15px 35px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  background: var(--accentColor);
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.see-all-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(194, 164, 255, 0.4);
 }

@@ -1,8 +1,19 @@
+/* Ensure full scrollability for MyWorks page */
+body:has(.myworks-page),
+html:has(.myworks-page) {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+}
+
 .myworks-page {
   min-height: 100vh;
+  width: 100%;
   background-color: var(--backgroundColor);
   padding: 80px 40px;
   box-sizing: border-box;
+  overflow-y: visible;
+  position: relative;
 }
 
 .myworks-header {
