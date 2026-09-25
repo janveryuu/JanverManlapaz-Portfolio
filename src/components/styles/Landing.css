@@ -47,58 +47,6 @@
     position: relative;
   }
 
-  /* ---- Status Tag ---- */
-  .mobile-status-tag {
-    display: inline-flex !important;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(194, 164, 255, 0.05);
-    border: 1px solid rgba(194, 164, 255, 0.22);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    margin-top: 76px;
-    margin-bottom: 6px;
-    order: 1 !important;
-    z-index: 10;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-  }
-
-  .status-ping {
-    position: relative;
-    display: inline-flex;
-    width: 8px;
-    height: 8px;
-  }
-
-  .status-ping-ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: #10b981;
-    opacity: 0.75;
-    animation: pingRing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-  }
-
-  .status-ping-dot {
-    position: relative;
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #10b981;
-    box-shadow: 0 0 8px #10b981;
-  }
-
-  .status-text {
-    font-size: 10px;
-    letter-spacing: 1.8px;
-    font-weight: 600;
-    color: rgba(234, 229, 236, 0.9);
-  }
-
   /* ---- Name / Intro block ---- */
   .landing-intro {
     position: relative !important;
@@ -107,12 +55,12 @@
     right: auto !important;
     bottom: auto !important;
     transform: none !important;
-    padding-top: 4px !important;
+    padding-top: 80px !important;
     z-index: 10;
     text-align: center;
     width: 100% !important;
     height: auto !important;
-    order: 2 !important;
+    order: 1 !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
     box-sizing: border-box;
@@ -162,7 +110,7 @@
     flex-wrap: wrap !important;
     height: auto !important;
     width: 100% !important;
-    order: 3 !important;
+    order: 2 !important;
     padding: 0 10px !important;
     box-sizing: border-box;
     margin-top: 10px !important;
@@ -237,31 +185,32 @@
     white-space: nowrap !important;
   }
 
-  /* ---- Mobile Photo ---- */
+  /* ---- Mobile Photo (Enlarged) ---- */
   .mobile-photo {
     display: flex !important;
     justify-content: center;
     align-items: center;
     position: relative !important;
     width: 100%;
-    max-width: clamp(230px, 62vw, 290px);
+    max-width: clamp(290px, 84vw, 390px);
     margin: 0 auto;
     z-index: 1;
-    order: 4 !important;
+    order: 3 !important;
     flex-shrink: 0;
     transform: none !important;
-    margin-top: 6px;
+    margin-top: 12px;
+    margin-bottom: 8px;
   }
 
   .mobile-photo-backdrop {
     position: absolute;
-    width: 250px;
-    height: 250px;
+    width: 320px;
+    height: 320px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(194, 164, 255, 0.32) 0%, rgba(138, 75, 255, 0.18) 45%, rgba(84, 0, 255, 0.05) 65%, transparent 75%);
-    filter: blur(35px);
+    background: radial-gradient(circle, rgba(194, 164, 255, 0.35) 0%, rgba(138, 75, 255, 0.20) 45%, rgba(84, 0, 255, 0.05) 65%, transparent 75%);
+    filter: blur(42px);
     z-index: 0;
-    top: 40%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     animation: pulseAura 4.5s ease-in-out infinite alternate;
@@ -279,49 +228,16 @@
   .mobile-photo-wrapper img {
     width: 100%;
     height: auto;
-    max-height: clamp(240px, 36vh, 310px);
+    max-height: clamp(310px, 48vh, 430px);
     object-fit: contain;
     display: block;
     position: relative;
     z-index: 1;
-    filter: drop-shadow(0 0 25px rgba(194, 164, 255, 0.3)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
-    -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
-    mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
+    filter: drop-shadow(0 0 35px rgba(194, 164, 255, 0.35)) drop-shadow(0 20px 35px rgba(0, 0, 0, 0.75));
+    -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
     animation: heroPortraitFloat 5s ease-in-out infinite;
     pointer-events: none;
-  }
-
-  .mobile-float-tag {
-    position: absolute;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 11px;
-    background: rgba(15, 12, 22, 0.82);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(194, 164, 255, 0.3);
-    border-radius: 999px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), 0 0 12px rgba(194, 164, 255, 0.15);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: #ffffff;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .mobile-float-tag.tag-left {
-    left: -8px;
-    bottom: 35%;
-    animation: floatTagLeft 4.5s ease-in-out infinite alternate;
-  }
-
-  .mobile-float-tag.tag-right {
-    right: -8px;
-    top: 25%;
-    animation: floatTagRight 5s ease-in-out infinite alternate-reverse;
   }
 
   /* ---- Mobile CTAs ---- */
@@ -329,10 +245,10 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
-    order: 5 !important;
-    margin-top: 12px;
+    order: 4 !important;
+    margin-top: 14px;
     margin-bottom: 8px;
     z-index: 10;
   }
@@ -340,10 +256,10 @@
   .mobile-cta-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 18px;
+    justify-content: center;
+    padding: 10px 24px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.8px;
     text-decoration: none;
@@ -414,13 +330,6 @@
 }
 
 /* Animations for Mobile Hero */
-@keyframes pingRing {
-  75%, 100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
-}
-
 @keyframes heroPortraitFloat {
   0%, 100% {
     transform: translateY(0);
@@ -438,24 +347,6 @@
   100% {
     transform: translate(-50%, -50%) scale(1.08);
     opacity: 1;
-  }
-}
-
-@keyframes floatTagLeft {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes floatTagRight {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(5px);
   }
 }
 
