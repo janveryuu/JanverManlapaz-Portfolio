@@ -1,6 +1,9 @@
-/* Mobile Photo - hidden by default, shown only on mobile */
-.mobile-photo {
-  display: none;
+/* Mobile elements - hidden by default on desktop */
+.mobile-photo,
+.mobile-status-tag,
+.mobile-hero-actions,
+.mobile-scroll-cue {
+  display: none !important;
 }
 
 /* ===================================================
@@ -18,13 +21,16 @@
     display: none !important;
   }
 
-  /* Make landing section a flex column so we can use order */
+  /* Make landing section a flex column */
   .landing-section {
     height: auto !important;
     min-height: 100svh;
     max-width: 100vw;
     box-sizing: border-box;
     overflow: hidden;
+    position: relative;
+    padding-bottom: 24px;
+    background: radial-gradient(circle at 50% 30%, rgba(194, 164, 255, 0.04) 0%, transparent 60%);
   }
 
   .landing-container {
@@ -32,11 +38,65 @@
     min-height: 100svh;
     max-width: 100%;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 0 16px !important;
     overflow: hidden;
+    position: relative;
+  }
+
+  /* ---- Status Tag ---- */
+  .mobile-status-tag {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(194, 164, 255, 0.05);
+    border: 1px solid rgba(194, 164, 255, 0.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    margin-top: 76px;
+    margin-bottom: 6px;
+    order: 1 !important;
+    z-index: 10;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  .status-ping {
+    position: relative;
+    display: inline-flex;
+    width: 8px;
+    height: 8px;
+  }
+
+  .status-ping-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #10b981;
+    opacity: 0.75;
+    animation: pingRing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .status-ping-dot {
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+  }
+
+  .status-text {
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    font-weight: 600;
+    color: rgba(234, 229, 236, 0.9);
   }
 
   /* ---- Name / Intro block ---- */
@@ -47,60 +107,43 @@
     right: auto !important;
     bottom: auto !important;
     transform: none !important;
-    padding-top: 90px;
+    padding-top: 4px !important;
     z-index: 10;
     text-align: center;
     width: 100% !important;
     height: auto !important;
-    order: 1;
-    padding-left: 20px;
-    padding-right: 20px;
+    order: 2 !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
     box-sizing: border-box;
   }
 
   .landing-intro h2 {
-    font-size: 15px !important;
-    letter-spacing: 2px;
-    color: var(--accentColor);
-    margin: 0 0 8px 0;
-    font-weight: 300;
+    font-size: 13px !important;
+    letter-spacing: 2.5px !important;
+    color: var(--accentColor) !important;
+    margin: 0 0 4px 0 !important;
+    font-weight: 400 !important;
+    text-transform: uppercase;
   }
 
   .landing-intro h1 {
-    font-size: clamp(36px, 10vw, 52px) !important;
+    font-size: clamp(32px, 8.5vw, 44px) !important;
     line-height: 1.05 !important;
-    letter-spacing: 3px;
-    margin: 0;
+    letter-spacing: 2.5px !important;
+    margin: 0 !important;
     word-break: break-word;
     white-space: normal;
+    font-weight: 700 !important;
   }
 
-  /* ---- Mobile Photo ---- */
-  .mobile-photo {
-    display: block;
-    position: relative !important;
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-    z-index: 1;
-    order: 2;
-    flex-shrink: 0;
-    -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-    pointer-events: none;
-    transform: none !important;
-    margin-top: -10px;
+  .landing-intro h1 span {
+    background: linear-gradient(135deg, #ffffff 30%, var(--accentColor) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  .mobile-photo img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    filter: drop-shadow(0 0 40px rgba(194, 164, 255, 0.35));
-  }
-
-  /* ---- Subtitles block ---- */
+  /* ---- Subtitles / Role Badges block ---- */
   .landing-info {
     position: relative !important;
     top: auto !important;
@@ -111,82 +154,333 @@
     text-align: center;
     z-index: 10;
     background: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
     height: auto !important;
     width: 100% !important;
-    order: 3;
-    padding: 0 20px 60px;
+    order: 3 !important;
+    padding: 0 10px !important;
     box-sizing: border-box;
-    margin-top: -15px;
+    margin-top: 10px !important;
+    margin-bottom: 6px !important;
   }
 
-  /* Hide the small "A" label */
   .landing-info h3 {
-    display: none;
+    display: none !important;
   }
 
-  /* Override all subtitle h2 elements */
   .landing-info h2,
-  h2.landing-info-h2,
-  .landing-h2-1,
-  .landing-h2-info {
+  h2.landing-info-h2 {
     position: static !important;
-    display: block !important;
-    width: 100% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
     margin: 0 !important;
-    line-height: 1.3 !important;
-    white-space: normal !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
     text-align: center !important;
     height: auto !important;
     transform: none !important;
     overflow: visible !important;
+    background: rgba(194, 164, 255, 0.08) !important;
+    border: 1px solid rgba(194, 164, 255, 0.22) !important;
+    border-radius: 999px !important;
+    padding: 6px 14px !important;
   }
 
-  /* "Full Stack Dev" — accent colored */
   h2.landing-info-h2 {
-    font-size: clamp(22px, 6vw, 30px) !important;
+    font-size: 11px !important;
     color: var(--accentColor) !important;
     -webkit-text-fill-color: unset !important;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
   }
 
-  /* Hide the gradient overlay that clips the text */
   .landing-info-h2::after {
     display: none !important;
   }
 
-  /* Wrapper h2 with landing-h2-1 inside */
   .landing-info h2:not(.landing-info-h2) {
-    font-size: clamp(16px, 4.5vw, 22px) !important;
-    letter-spacing: 2px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.85);
-    margin-top: 4px !important;
+    font-size: 11px !important;
+    letter-spacing: 1.5px !important;
+    font-weight: 600 !important;
+    color: #eae5ec !important;
+    text-transform: uppercase !important;
   }
 
   .landing-h2-1 {
-    font-size: clamp(22px, 6vw, 30px) !important;
-    color: var(--accentColor);
-    font-weight: 700;
+    font-size: 11px !important;
+    color: var(--accentColor) !important;
+    font-weight: 600 !important;
     position: static !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
+    letter-spacing: 1.5px !important;
   }
 
   .landing-h2-info {
-    font-size: clamp(16px, 4.5vw, 22px) !important;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px !important;
+    color: #eae5ec !important;
     position: static !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
+    letter-spacing: 1.5px !important;
   }
 
   .landing-h2-info-1,
   .landing-h2-2 {
     position: static !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
+  }
+
+  /* ---- Mobile Photo ---- */
+  .mobile-photo {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    position: relative !important;
+    width: 100%;
+    max-width: clamp(230px, 62vw, 290px);
+    margin: 0 auto;
+    z-index: 1;
+    order: 4 !important;
+    flex-shrink: 0;
+    transform: none !important;
+    margin-top: 6px;
+  }
+
+  .mobile-photo-backdrop {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(194, 164, 255, 0.32) 0%, rgba(138, 75, 255, 0.18) 45%, rgba(84, 0, 255, 0.05) 65%, transparent 75%);
+    filter: blur(35px);
+    z-index: 0;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulseAura 4.5s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  .mobile-photo-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobile-photo-wrapper img {
+    width: 100%;
+    height: auto;
+    max-height: clamp(240px, 36vh, 310px);
+    object-fit: contain;
+    display: block;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 25px rgba(194, 164, 255, 0.3)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
+    -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
+    mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
+    animation: heroPortraitFloat 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .mobile-float-tag {
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 11px;
+    background: rgba(15, 12, 22, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(194, 164, 255, 0.3);
+    border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), 0 0 12px rgba(194, 164, 255, 0.15);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .mobile-float-tag.tag-left {
+    left: -8px;
+    bottom: 35%;
+    animation: floatTagLeft 4.5s ease-in-out infinite alternate;
+  }
+
+  .mobile-float-tag.tag-right {
+    right: -8px;
+    top: 25%;
+    animation: floatTagRight 5s ease-in-out infinite alternate-reverse;
+  }
+
+  /* ---- Mobile CTAs ---- */
+  .mobile-hero-actions {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    order: 5 !important;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    z-index: 10;
+  }
+
+  .mobile-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+  }
+
+  .mobile-cta-btn.primary {
+    background: linear-gradient(135deg, rgba(194, 164, 255, 0.22) 0%, rgba(138, 75, 255, 0.28) 100%);
+    border: 1px solid rgba(194, 164, 255, 0.5);
+    box-shadow: 0 0 16px rgba(194, 164, 255, 0.22);
+    color: #ffffff;
+  }
+
+  .mobile-cta-btn.primary:active {
+    transform: scale(0.96);
+  }
+
+  .mobile-cta-btn.secondary {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #eae5ec;
+  }
+
+  .mobile-cta-btn.secondary:active {
+    transform: scale(0.96);
+  }
+
+  /* ---- Mobile Scroll Cue ---- */
+  .mobile-scroll-cue {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    order: 6 !important;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    opacity: 0.65;
+  }
+
+  .mobile-scroll-cue span {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--accentColor);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .mobile-scroll-line {
+    width: 1px;
+    height: 18px;
+    background: linear-gradient(to bottom, var(--accentColor), transparent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mobile-scroll-dot {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accentColor);
+    box-shadow: 0 0 6px var(--accentColor);
+    animation: scrollDotAnim 1.8s ease-in-out infinite;
+  }
+}
+
+/* Animations for Mobile Hero */
+@keyframes pingRing {
+  75%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes heroPortraitFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulseAura {
+  0% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes floatTagLeft {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes floatTagRight {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes scrollDotAnim {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes heroFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -461,7 +755,7 @@ h2.landing-info-h2 {
   left: 0;
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 769px) {
   .landing-circle2 {
     display: block;
   }
