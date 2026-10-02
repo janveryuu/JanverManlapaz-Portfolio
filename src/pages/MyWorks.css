@@ -148,9 +148,16 @@ html:has(.myworks-page) {
   line-height: 1.5;
 }
 
+.myworks-card-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
 .myworks-card-link {
   display: inline-block;
-  margin-top: 15px;
   color: var(--accentColor);
   text-decoration: none;
   font-size: 14px;
@@ -164,6 +171,25 @@ html:has(.myworks-page) {
 .myworks-card-link:hover {
   background: var(--accentColor);
   color: #000;
+}
+
+.myworks-card-github {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.myworks-card-github:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
 }
 
 /* Responsive */

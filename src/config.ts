@@ -10,6 +10,17 @@ export interface Certification {
     skills?: string[];
 }
 
+export interface Project {
+    id: number;
+    title: string;
+    category: string;
+    technologies: string;
+    image: string;
+    description: string;
+    link: string;
+    github?: string;
+}
+
 export const config = {
     developer: {
         name: "Janver",
@@ -91,12 +102,13 @@ export const config = {
     projects: [
         {
             id: 1,
-            title: "Pawi",
-            category: "Full Stack / SaaS",
-            technologies: "React, Next.js, TypeScript, Tailwind CSS, Prisma, PostgreSQL, Supabase",
-            image: "/images/pawi-favicon.jpg",
-            description: "Developed a comprehensive financial tracking application that empowers users to monitor income, expenses, and savings goals in real-time. Implemented a secure database architecture to manage sensitive user financial data and created an interactive dashboard using React and Tailwind CSS.",
-            link: "https://pawi-finance.vercel.app/"
+            title: "FETCH",
+            category: "Full Stack / AI & EdTech SaaS",
+            technologies: "Next.js 16, React 19, TypeScript, Tailwind CSS v4, OpenAI API, Supabase, Motion, Zod, Radix UI",
+            image: "/images/fetch-logo.png",
+            description: "Architected and shipped FETCH — an intelligent, mascot-led study platform that transforms raw notes, lecture slides, and syllabus materials into active-recall StudyPacks. Engineered AI-powered question generation (multiple-choice and open-ended recall) with source-grounded grading and detailed explanations. Built an end-to-end learning workspace featuring Pomodoro focus sessions with ambient themes, interactive calendar planning, progress streak tracking, and local history persistence on Next.js 16 App Router, React 19, and Supabase.",
+            link: "https://fetch-study.vercel.app/",
+            github: "https://github.com/janveryu2/Fetch-2.0-.git"
         },
         {
             id: 2,
@@ -105,7 +117,17 @@ export const config = {
             technologies: "Next.js, TypeScript, Supabase, Groq, Gemini AI, Framer Motion, Tailwind CSS, Vercel",
             image: "/images/dormosaur-favicon.jpg",
             description: "Architected and shipped Dormosaur — a full-stack AI-powered SaaS platform built for dorm life. Students paste their raw, messy class schedules and the app uses Gemini AI to instantly generate a clean, beautiful timetable with auto-synced alarms for every class. Features a Kitchen module with AI-suggested dorm-friendly recipes, a Deadline tracker, an Admin dashboard, push notification cron jobs, and full authentication — all built on Next.js 16, Supabase, and deployed on Vercel.",
-            link: "https://dormosaur.vercel.app"
+            link: "https://dormosaur.vercel.app",
+            github: "https://github.com/janveryuu/dormosaur"
+        },
+        {
+            id: 3,
+            title: "Pawi",
+            category: "Full Stack / SaaS",
+            technologies: "React, Next.js, TypeScript, Tailwind CSS, Prisma, PostgreSQL, Supabase",
+            image: "/images/pawi-favicon.jpg",
+            description: "Developed a comprehensive financial tracking application that empowers users to monitor income, expenses, and savings goals in real-time. Implemented a secure database architecture to manage sensitive user financial data and created an interactive dashboard using React and Tailwind CSS.",
+            link: "https://pawi-finance.vercel.app/"
         }
     ],
     contact: {
