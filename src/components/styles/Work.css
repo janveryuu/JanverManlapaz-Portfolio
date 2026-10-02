@@ -109,24 +109,41 @@
 
 .work-image-in {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  background: radial-gradient(circle at center, rgba(194, 164, 255, 0.06) 0%, rgba(15, 12, 18, 0.8) 100%);
+}
+
+.work-image-in:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(194, 164, 255, 0.25), 0 0 0 1px rgba(194, 164, 255, 0.4);
 }
 
 .work-link {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: var(--backgroundColor);
-  width: 50px;
-  border-radius: 50px;
-  height: 50px;
+  bottom: 14px;
+  right: 14px;
+  background-color: rgba(11, 8, 12, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  width: 48px;
+  border-radius: 50%;
+  height: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 25px;
-  box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5),
-    inset 0px 0px 10px 0px #393939;
-  transition: 0.3s;
+  font-size: 22px;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   opacity: 0;
+  z-index: 2;
 }
 
 .work-image a:hover {
@@ -135,6 +152,9 @@
 
 .work-image a:hover .work-link {
   opacity: 1;
+  transform: scale(1.08);
+  border-color: var(--accentColor);
+  color: var(--accentColor);
 }
 
 .work-image video {
@@ -148,8 +168,18 @@
 }
 
 .work-image img {
+  display: block;
   max-width: 100%;
   max-height: 350px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 28px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-image-in:hover img {
+  transform: scale(1.04);
 }
 
 @media only screen and (max-height: 900px) {
@@ -183,7 +213,7 @@
   }
 
   .work-box {
-    width: 450px;
+    width: 480px;
     padding: 50px;
   }
 
@@ -197,10 +227,10 @@
   }
 }
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1100px) {
   .work-box {
-    width: 350px;
-    padding: 30px;
+    width: 400px;
+    padding: 35px;
   }
 
   .work-flex {

@@ -35,29 +35,28 @@ const Certifications = () => {
     // Disable pinning on mobile to allow native vertical scrolling
     if (window.innerWidth <= 768) return;
 
-    let translateX = 0;
-
-    function setTranslateX() {
+    function getTranslateX() {
       const box = document.getElementsByClassName("cert-box");
-      if (box.length === 0) return;
+      if (box.length === 0) return 0;
       const container = document.querySelector(".cert-container");
-      if (!container || !box[0].parentElement) return;
+      if (!container || !box[0].parentElement) return 0;
 
       const rectLeft = container.getBoundingClientRect().left;
       const rect = box[0].getBoundingClientRect();
       const parentWidth = box[0].parentElement.getBoundingClientRect().width;
       let padding: number =
         parseInt(window.getComputedStyle(box[0]).padding) / 2 || 0;
-      translateX = rect.width * box.length - (rectLeft + parentWidth) + padding;
+      return Math.max(0, rect.width * box.length - (rectLeft + parentWidth) + padding);
     }
 
-    setTranslateX();
+    const initialDistance = getTranslateX();
+    if (initialDistance <= 0) return;
 
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".certifications-section",
         start: "top top",
-        end: `+=${translateX}`,
+        end: () => `+=${getTranslateX()}`,
         scrub: 1,
         pin: true,
         pinSpacing: true,
@@ -69,9 +68,14 @@ const Certifications = () => {
 
     // Reversed horizontal scroll: translates +translateX (starts at right, scrolls to left)
     timeline.to(".cert-flex", {
-      x: translateX,
+      x: () => getTranslateX(),
       ease: "none",
     });
+
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("resize", handleResize);
 
     // Refresh ScrollTrigger after layout settles
     ScrollTrigger.refresh();
@@ -80,6 +84,7 @@ const Certifications = () => {
     return () => {
       timeline.kill();
       ScrollTrigger.getById("certifications")?.kill();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 

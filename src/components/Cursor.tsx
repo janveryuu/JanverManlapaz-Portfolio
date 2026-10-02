@@ -69,7 +69,6 @@ const Cursor = () => {
       if (cursor) cursor.style.opacity = "1";
     };
 
-    document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseleave", onMouseLeave);
     document.addEventListener("mouseenter", onMouseEnter);
 

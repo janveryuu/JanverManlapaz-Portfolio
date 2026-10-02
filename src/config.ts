@@ -94,7 +94,7 @@ export const config = {
             title: "Pawi",
             category: "Full Stack / SaaS",
             technologies: "React, Next.js, TypeScript, Tailwind CSS, Prisma, PostgreSQL, Supabase",
-            image: "/images/Pawi-logo.png",
+            image: "/images/pawi-favicon.jpg",
             description: "Developed a comprehensive financial tracking application that empowers users to monitor income, expenses, and savings goals in real-time. Implemented a secure database architecture to manage sensitive user financial data and created an interactive dashboard using React and Tailwind CSS.",
             link: "https://pawi-finance.vercel.app/"
         },
@@ -103,27 +103,9 @@ export const config = {
             title: "Dormosaur",
             category: "Full Stack / SaaS & AI",
             technologies: "Next.js, TypeScript, Supabase, Groq, Gemini AI, Framer Motion, Tailwind CSS, Vercel",
-            image: "/images/dormosaur-logo.png",
+            image: "/images/dormosaur-favicon.jpg",
             description: "Architected and shipped Dormosaur — a full-stack AI-powered SaaS platform built for dorm life. Students paste their raw, messy class schedules and the app uses Gemini AI to instantly generate a clean, beautiful timetable with auto-synced alarms for every class. Features a Kitchen module with AI-suggested dorm-friendly recipes, a Deadline tracker, an Admin dashboard, push notification cron jobs, and full authentication — all built on Next.js 16, Supabase, and deployed on Vercel.",
             link: "https://dormosaur.vercel.app"
-        },
-        {
-            id: 3,
-            title: "Capy",
-            category: "Full Stack / Lifestyle",
-            technologies: "React, Next.js, TypeScript, Tailwind CSS, Prisma, Supabase, Vercel AI SDK",
-            image: "/images/capy-logo.png",
-            description: "Architected a dual-purpose lifestyle application combining daily emotional check-ins with collaborative travel planning. Designed intuitive, mobile-responsive interfaces and developed back-end APIs to securely sync user data, itineraries, and mood history across multiple devices.",
-            link: "https://capy-app-fawn.vercel.app/"
-        },
-        {
-            id: 4,
-            title: "Unifind",
-            category: "Full Stack / E-Commerce",
-            technologies: "React, Node.js, Express, MongoDB, Tailwind CSS, Render",
-            image: "/images/unifind-logo.png",
-            description: "Built a centralized, campus-focused e-commerce platform facilitating the buying and selling of academic materials. Engineered a robust search and filtering system alongside an internal messaging API to enable seamless and secure communication between student buyers and sellers.",
-            link: "https://unifind-1.onrender.com/"
         }
     ],
     contact: {

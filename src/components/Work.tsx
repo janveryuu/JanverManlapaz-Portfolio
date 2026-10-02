@@ -10,31 +10,33 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Work = () => {
   useEffect(() => {
-    // Disable pinning on mobile to allow scrolling
+    // Disable pinning on mobile to allow natural vertical scrolling
     if (window.innerWidth <= 768) return;
 
-    let translateX: number = 0;
+    const workContainer = document.querySelector(".work-container") as HTMLElement;
+    const workFlex = document.querySelector(".work-flex") as HTMLElement;
+    const boxes = document.querySelectorAll(".work-box");
+    if (!workContainer || !workFlex || boxes.length === 0) return;
 
-    function setTranslateX() {
-      const box = document.getElementsByClassName("work-box");
-      if (box.length === 0) return;
-      const rectLeft = document
-        .querySelector(".work-container")!
-        .getBoundingClientRect().left;
-      const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement!.getBoundingClientRect().width;
-      let padding: number =
-        parseInt(window.getComputedStyle(box[0]).padding) / 2;
-      translateX = rect.width * box.length - (rectLeft + parentWidth) + padding;
+    const getTranslateX = () => {
+      const lastBox = boxes[boxes.length - 1] as HTMLElement;
+      if (!lastBox) return 0;
+      const containerRect = workContainer.getBoundingClientRect();
+      const lastBoxRect = lastBox.getBoundingClientRect();
+      const excess = lastBoxRect.right - containerRect.right + 80;
+      return Math.max(0, excess);
+    };
+
+    const initialDistance = getTranslateX();
+    if (initialDistance <= 0) {
+      return;
     }
 
-    setTranslateX();
-
-    let timeline = gsap.timeline({
+    const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: ".work-section",
         start: "top top",
-        end: `+=${translateX}`,
+        end: () => `+=${getTranslateX()}`,
         scrub: 1,
         pin: true,
         pinSpacing: true,
@@ -45,17 +47,21 @@ const Work = () => {
     });
 
     timeline.to(".work-flex", {
-      x: -translateX,
+      x: () => -getTranslateX(),
       ease: "none",
     });
 
-    // Refresh ScrollTrigger after layout settles
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
     ScrollTrigger.refresh();
 
-    // Clean up
     return () => {
       timeline.kill();
       ScrollTrigger.getById("work")?.kill();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
   return (
