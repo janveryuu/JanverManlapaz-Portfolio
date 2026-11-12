@@ -128,6 +128,25 @@ export const config = {
             image: "/images/pawi-favicon.jpg",
             description: "Developed a comprehensive financial tracking application that empowers users to monitor income, expenses, and savings goals in real-time. Implemented a secure database architecture to manage sensitive user financial data and created an interactive dashboard using React and Tailwind CSS.",
             link: "https://pawi-finance.vercel.app/"
+        },
+        {
+            id: 4,
+            title: "OHMI",
+            category: "AI / EdTech Browser Extension",
+            technologies: "TypeScript, React 19, WXT, Chrome MV3, Supabase, Gemini AI, Vitest",
+            image: "/images/ohmi-logo.png",
+            description: "Built OHMI — Your Circuit Buddy, an AI-powered Chrome extension that works as an interactive learning companion for students inside Autodesk Tinkercad Circuits. A friendly pixel-art mascot sits beside the circuit and gives step-by-step electronics guidance, explains components, and helps students debug their builds. Developed with TypeScript, React 19, and a Supabase backend, backed by a 77-test Vitest suite, plus a companion website deployed on Vercel.",
+            link: "https://meetohmi.vercel.app/",
+            github: "https://github.com/janveryuu/OHMI"
+        },
+        {
+            id: 5,
+            title: "LearnShift",
+            category: "Mobile / AI & EdTech",
+            technologies: "React Native, Expo, TypeScript, Supabase, Edge Functions, Gemini AI, Expo Push",
+            image: "/images/learnshift-logo.png",
+            description: "Built LearnShift for the AIdeathon: Tech Connect SYNC — a mobile app that detects when screen time turns into doomscrolling and turns that moment into a 45-second lesson on the exact skill the student is missing. Features adaptive quizzes with Bayesian Knowledge Tracing, a bilingual Gemini tutor (English and Filipino) that checks its own math, streaks and rewards, and offline-first sync. One app serves students, guardians (habit summaries, bedtime controls), and teachers (live mastery heatmaps), with privacy enforced by Supabase row-level security.",
+            github: "https://github.com/janveryuu/LEARNSHIFT"
         }
     ],
     contact: {
