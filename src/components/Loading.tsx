@@ -16,9 +16,9 @@ const Loading = ({ percent }: { percent: number }) => {
         setLoaded(true);
         const t2 = setTimeout(() => {
           setIsLoaded(true);
-        }, 800);
+        }, 500);
         return () => clearTimeout(t2);
-      }, 400);
+      }, 150);
       return () => clearTimeout(t1);
     }
   }, [percent]);
@@ -32,7 +32,7 @@ const Loading = ({ percent }: { percent: number }) => {
             module.initialFX();
           }
           setIsLoading(false);
-        }, 900);
+        }, 700);
         return () => clearTimeout(timer);
       });
     }
@@ -98,44 +98,40 @@ const Loading = ({ percent }: { percent: number }) => {
 export default Loading;
 
 export const setProgress = (setLoading: (value: number) => void) => {
-  let percent: number = 0;
+  // Eases toward 90% while assets load, then finishes to 100% quickly once ready.
+  let percent = 0;
+  let timerId = 0;
+  let last = performance.now();
+  let finishing = false;
+  let onDone: ((v: number) => void) | null = null;
 
-  let interval = setInterval(() => {
-    if (percent <= 50) {
-      let rand = Math.round(Math.random() * 6) + 1;
-      percent = Math.min(percent + rand, 50);
-      setLoading(percent);
+  const tick = (now: number) => {
+    const dt = Math.min(now - last, 250);
+    last = now;
+    if (finishing) {
+      percent = Math.min(100, percent + dt * 0.25); // ~0.3s to finish
     } else {
-      clearInterval(interval);
-      interval = setInterval(() => {
-        let rand = Math.round(Math.random() * 3) + 1;
-        percent = Math.min(percent + rand, 95);
-        setLoading(percent);
-        if (percent >= 95) {
-          clearInterval(interval);
-        }
-      }, 120);
+      percent += (90 - percent) * (1 - Math.exp(-dt / 900));
     }
-  }, 60);
+    setLoading(percent);
+    if (percent >= 100) {
+      clearInterval(timerId);
+      onDone?.(100);
+    }
+  };
+  // setInterval (not rAF) so progress keeps moving even in a background tab
+  timerId = window.setInterval(() => tick(performance.now()), 16);
 
   function clear() {
-    clearInterval(interval);
+    clearInterval(timerId);
+    percent = 100;
     setLoading(100);
   }
 
   function loaded() {
+    finishing = true;
     return new Promise<number>((resolve) => {
-      clearInterval(interval);
-      interval = setInterval(() => {
-        if (percent < 100) {
-          percent += 2;
-          if (percent > 100) percent = 100;
-          setLoading(percent);
-        } else {
-          resolve(percent);
-          clearInterval(interval);
-        }
-      }, 15);
+      onDone = resolve;
     });
   }
   return { loaded, percent, clear };

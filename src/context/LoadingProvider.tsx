@@ -1,6 +1,7 @@
 import {
   createContext,
   PropsWithChildren,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -18,7 +19,12 @@ export const LoadingContext = createContext<LoadingType | null>(null);
 export const LoadingProvider = ({ children }: PropsWithChildren) => {
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 1024;
   const [isLoading, setIsLoading] = useState(() => isDesktop);
-  const [loading, setLoading] = useState(0);
+  const [loading, setLoadingRaw] = useState(0);
+  // Progress only ever moves forward, so the bar can never jump back
+  const setLoading = useCallback(
+    (percent: number) => setLoadingRaw((prev) => Math.max(prev, Math.min(100, Math.round(percent)))),
+    []
+  );
 
   const value = {
     isLoading,
@@ -37,27 +43,9 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
         }
       });
     } else {
-      // Progress simulation for desktop while 3D assets load
-      let current = 0;
-      const progressTimer = setInterval(() => {
-        current += Math.round(Math.random() * 8) + 2;
-        if (current >= 90) {
-          current = 90;
-          clearInterval(progressTimer);
-        }
-        setLoading((prev) => Math.max(prev, current));
-      }, 80);
-
-      // Failsafe timer: if 3D model or network takes too long or fails, force complete to 100%
-      const failsafeTimer = setTimeout(() => {
-        clearInterval(progressTimer);
-        setLoading(100);
-      }, 4000);
-
-      return () => {
-        clearInterval(progressTimer);
-        clearTimeout(failsafeTimer);
-      };
+      // Scene.tsx drives progress; this is only a safety net if the model never loads
+      const failsafeTimer = setTimeout(() => setLoadingRaw(100), 15000);
+      return () => clearTimeout(failsafeTimer);
     }
   }, [isDesktop]);
 

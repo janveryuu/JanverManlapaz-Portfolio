@@ -32,6 +32,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="preconnect" href="https://cdn.simpleicons.org" />
+    <!-- Preload 3D assets so the loader finishes sooner -->
+    <link rel="preload" href="/models/character.enc" as="fetch" crossorigin />
+    <link rel="preload" href="/models/char_enviorment.hdr" as="fetch" crossorigin />
   </head>
   <body>
     <div id="root"></div>
