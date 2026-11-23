@@ -1,12 +1,19 @@
 import { Link } from "react-router-dom";
 import { config } from "../config";
 import "./styles/CallToAction.css";
+import { useIsMobile } from "../mobile/useIsMobile";
 
 const CallToAction = () => {
+  const isMobile = useIsMobile();
   return (
     <div className="cta-section">
       <div className="cta-buttons">
-        <Link to="/play" className="cta-btn cta-btn-play" data-cursor="disable">
+        <Link
+          to="/play"
+          className="cta-btn cta-btn-play"
+          data-cursor="disable"
+          viewTransition={isMobile}
+        >
           Play With Me →
         </Link>
         

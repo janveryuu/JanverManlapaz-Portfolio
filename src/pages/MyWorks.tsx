@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "../mobile/useIsMobile";
 import { config } from "../config";
 import "./MyWorks.css";
 
 const MyWorks = () => {
+  const isMobile = useIsMobile();
   useEffect(() => {
     // Explicitly unlock scrolling across all devices and reset scroll position to top
     document.body.style.overflow = "auto";
@@ -27,7 +29,7 @@ const MyWorks = () => {
   return (
     <div className="myworks-page">
       <div className="myworks-header">
-        <Link to="/" className="back-button" data-cursor="disable">
+        <Link to="/" className="back-button" data-cursor="disable" viewTransition={isMobile}>
           ← Back to Home
         </Link>
         <h1>

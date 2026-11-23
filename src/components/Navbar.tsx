@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
 import { gsap } from "gsap";
@@ -8,8 +8,27 @@ import "./styles/Navbar.css";
 gsap.registerPlugin(ScrollTrigger);
 export let lenis: Lenis | null = null;
 
+const MOBILE_LINKS = [
+  { href: "#about", label: "About" },
+  { href: "#work", label: "Work" },
+  { href: "#certifications", label: "Certs" },
+  { href: "#contact", label: "Contact" },
+];
+
+/** Section the reader is currently in (40% down the viewport), for highlighting the menu link. */
+const findCurrentSection = () => {
+  const probe = window.innerHeight * 0.4;
+  let current = "";
+  MOBILE_LINKS.forEach(({ href }) => {
+    const el = document.querySelector(href);
+    if (el && el.getBoundingClientRect().top <= probe) current = href;
+  });
+  return current;
+};
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [currentSection, setCurrentSection] = useState("");
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
@@ -24,6 +43,9 @@ const Navbar = () => {
       if (isMobile) {
         document.body.style.overflow = "hidden";
         document.documentElement.style.overflow = "hidden";
+        // Inline overflow loses to the mobile `!important` scroll rules; this class wins
+        document.documentElement.classList.add("m-lock");
+        setCurrentSection(findCurrentSection());
       } else if (lenis) {
         lenis.stop();
       }
@@ -31,15 +53,23 @@ const Navbar = () => {
       if (isMobile) {
         document.body.style.overflow = "";
         document.documentElement.style.overflow = "";
+        document.documentElement.classList.remove("m-lock");
       } else if (lenis) {
         lenis.start();
       }
     }
 
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    if (menuOpen) window.addEventListener("keydown", onKeyDown);
+
     return () => {
       // Always clean up on unmount
+      window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
+      document.documentElement.classList.remove("m-lock");
     };
   }, [menuOpen]);
 
@@ -146,7 +176,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="header">
+      <div className={`header${menuOpen ? " menu-open" : ""}`}>
         <a href="/#" className="navbar-title" data-cursor="disable">
           JM
         </a>
@@ -184,7 +214,9 @@ const Navbar = () => {
         <button
           className={`hamburger-btn${menuOpen ? " hamburger-open" : ""}`}
           onClick={toggleMenu}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
           data-cursor="disable"
         >
           <span></span>
@@ -194,24 +226,39 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu overlay */}
-      <div className={`mobile-menu-overlay${menuOpen ? " mobile-menu-active" : ""}`}>
+      <div
+        id="mobile-menu"
+        className={`mobile-menu-overlay${menuOpen ? " mobile-menu-active" : ""}`}
+        aria-hidden={!menuOpen}
+      >
         <div className="mobile-menu-content">
           <nav className="mobile-menu-nav">
-            <a href="#about" onClick={() => handleMobileNavClick("#about")}>
-              ABOUT
-            </a>
-            <a href="#work" onClick={() => handleMobileNavClick("#work")}>
-              WORK
-            </a>
-            <a href="#certifications" onClick={() => handleMobileNavClick("#certifications")}>
-              CERTS
-            </a>
-            <a href="#contact" onClick={() => handleMobileNavClick("#contact")}>
-              CONTACT
-            </a>
+            {MOBILE_LINKS.map(({ href, label }, i) => (
+              <a
+                key={href}
+                href={href}
+                className={currentSection === href ? "is-current" : undefined}
+                aria-current={currentSection === href ? "location" : undefined}
+                style={{ "--i": i } as CSSProperties}
+                tabIndex={menuOpen ? 0 : -1}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleMobileNavClick(href);
+                }}
+              >
+                <span className="mobile-menu-index">{String(i + 1).padStart(2, "0")}</span>
+                {label.toUpperCase()}
+              </a>
+            ))}
           </nav>
           <div className="mobile-menu-footer">
-            <a href="mailto:Janvermanlapaz@gmail.com" className="mobile-menu-email" onClick={closeMenu}>
+            <span className="mobile-menu-label">Get in touch</span>
+            <a
+              href="mailto:Janvermanlapaz@gmail.com"
+              className="mobile-menu-email"
+              onClick={closeMenu}
+              tabIndex={menuOpen ? 0 : -1}
+            >
               Janvermanlapaz@gmail.com
             </a>
           </div>

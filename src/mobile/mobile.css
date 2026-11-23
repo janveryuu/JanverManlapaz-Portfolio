@@ -1,0 +1,653 @@
+/* ============================================================
+   MOBILE EXPERIENCE LAYER (≤768px only)
+   Every rule in this file is scoped to phone widths. Desktop and
+   tablet (≥769px) rendering is intentionally left untouched.
+
+   Motion tokens
+   --m-ease-out:   decelerating "settle" curve (iOS sheet feel)
+   --m-ease-in:    accelerating exit curve
+   --m-ease-spring: slight overshoot for pops
+   ============================================================ */
+@media only screen and (max-width: 768px) {
+  :root {
+    --m-ease-out: cubic-bezier(0.32, 0.72, 0, 1);
+    --m-ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --m-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --m-dur-fast: 0.25s;
+    --m-dur: 0.6s;
+    --m-dur-slow: 0.9s;
+  }
+
+  /* ── Overflow + sticky fix ──
+     `overflow-x: hidden` turns body/.main-body/.container-main into scroll
+     containers, which silently breaks `position: sticky` and still lets iOS
+     pan sideways. `clip` hides overflow without creating a scroll container. */
+  body {
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+  }
+
+  .main-body,
+  .container-main {
+    overflow-x: clip !important;
+  }
+
+  /* Scroll lock used by the menu + bottom sheet (beats the !important rules above) */
+  html.m-lock,
+  html.m-lock body {
+    overflow: hidden !important;
+  }
+
+  /* No scrolling behind the first-visit splash */
+  html:has(.m-splash:not(.is-leaving)),
+  html:has(.m-splash:not(.is-leaving)) body {
+    overflow: hidden !important;
+  }
+
+  a,
+  button,
+  [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Desktop-only scroll tweens (character scene, career drift) write inline
+     transforms/opacity. If the page was opened wide and then shrunk to phone
+     width, neutralise them so sections never overlap or vanish. */
+  .landing-container,
+  .about-section,
+  .whatIDO,
+  .career-section {
+    transform: none !important;
+  }
+
+  .landing-container,
+  .about-section {
+    opacity: 1 !important;
+  }
+
+  /* ── Header: glass on scroll, hides on scroll-down, returns on scroll-up ── */
+  .header {
+    transition: translate 0.45s var(--m-ease-out);
+  }
+
+  .header::before {
+    content: "";
+    position: absolute;
+    inset: 0 -15px;
+    z-index: -1;
+    background: rgba(11, 8, 12, 0.62);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .header.is-scrolled::before {
+    opacity: 1;
+  }
+
+  .header.is-hidden {
+    translate: 0 -110%;
+  }
+
+  /* Menu open: header (hamburger) must sit above the overlay */
+  .header.menu-open {
+    z-index: 10002;
+    translate: none;
+  }
+
+  .header.menu-open::before {
+    opacity: 0;
+  }
+
+  /* ── Scroll progress hairline ── */
+  .m-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 10003;
+    pointer-events: none;
+  }
+
+  .m-progress span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #7f40ff, var(--accentColor));
+    box-shadow: 0 0 8px rgba(194, 164, 255, 0.6);
+    transform-origin: 0 50%;
+    transform: scaleX(var(--p, 0));
+  }
+
+  /* ── Hero: scroll-linked depth (--hero-p 0..1 set on .landing-section) ── */
+  .mobile-photo-wrapper {
+    translate: 0 calc(var(--hero-p, 0) * -36px);
+    scale: calc(1 - var(--hero-p, 0) * 0.1);
+    opacity: calc(1 - var(--hero-p, 0) * 0.85);
+  }
+
+  .landing-intro,
+  .landing-info {
+    translate: 0 calc(var(--hero-p, 0) * -24px);
+    opacity: calc(1 - var(--hero-p, 0) * 1.1);
+  }
+
+  .mobile-hero-actions,
+  .mobile-scroll-cue {
+    opacity: calc(1 - var(--hero-p, 0) * 2.2);
+  }
+
+  /* ── Press feedback for every tappable surface ── */
+  .see-all-btn,
+  .cta-btn,
+  .contact-social,
+  .techstack-item,
+  .m-copy-btn,
+  .mobile-menu-nav a {
+    transition:
+      scale var(--m-dur-fast) var(--m-ease-out),
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .see-all-btn:active,
+  .cta-btn:active,
+  .contact-social:active,
+  .techstack-item:active,
+  .m-copy-btn:active {
+    scale: 0.95;
+  }
+
+  /* Hover styles "stick" after a tap on touch screens: neutralise them */
+  .see-all-btn:hover,
+  .cta-btn-play:hover,
+  .cta-btn-hire:hover {
+    transform: none;
+  }
+
+  .see-all-btn,
+  .cta-btn {
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+
+  .cta-btn {
+    border-radius: 999px;
+  }
+
+  /* ── What I Do: tactile cards + staggered skill tags ── */
+  .what-content {
+    transition:
+      padding 0.5s var(--m-ease-out),
+      scale var(--m-dur-fast) var(--m-ease-out);
+  }
+
+  .what-content:active {
+    scale: 0.985;
+  }
+
+  /* ── Copy-email affordance + toast (Contact) ── */
+  .m-email-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .m-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(194, 164, 255, 0.35);
+    background: rgba(194, 164, 255, 0.08);
+    color: var(--accentColor);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+
+  .m-toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    z-index: 10004;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: rgba(24, 17, 30, 0.92);
+    border: 1px solid rgba(194, 164, 255, 0.3);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    translate: -50% 0;
+    animation: mToastIn 0.45s var(--m-ease-out) both;
+    pointer-events: none;
+  }
+
+  .m-toast svg {
+    color: var(--accentColor);
+  }
+
+  /* ── Splash ── */
+  .m-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 10010;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    background:
+      radial-gradient(60% 40% at 50% 45%, rgba(194, 164, 255, 0.14) 0%, transparent 70%),
+      #0b080c;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .m-splash.is-leaving {
+    animation: mSplashOut 0.65s var(--m-ease-in) forwards;
+  }
+
+  .m-splash-mark {
+    display: flex;
+    overflow: hidden;
+    font-size: 56px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .m-splash-mark span {
+    display: inline-block;
+    animation: mSplashLetter 0.7s var(--m-ease-out) both;
+  }
+
+  .m-splash-mark span:nth-child(2) {
+    animation-delay: 0.08s;
+    color: var(--accentColor);
+  }
+
+  .m-splash-bar {
+    width: 120px;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+
+  .m-splash-bar i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #7f40ff, var(--accentColor));
+    transform-origin: 0 50%;
+    animation: mSplashBar 0.75s 0.15s var(--m-ease-out) both;
+  }
+
+  .m-splash.is-leaving .m-splash-mark,
+  .m-splash.is-leaving .m-splash-bar {
+    transition: opacity 0.25s ease, translate 0.4s var(--m-ease-in);
+    opacity: 0;
+    translate: 0 -24px;
+  }
+
+  /* Hold hero entrance animations until the splash curtain lifts */
+  body:has(.m-splash:not(.is-leaving)) .landing-section *,
+  body:has(.m-splash:not(.is-leaving)) .landing-section *::before,
+  body:has(.m-splash:not(.is-leaving)) .landing-section *::after {
+    animation-play-state: paused !important;
+  }
+
+  /* ── Mobile menu: circular reveal from the hamburger + staggered links ── */
+  .mobile-menu-overlay {
+    opacity: 1;
+    visibility: hidden;
+    clip-path: circle(0px at calc(100% - 35px) 37px);
+    transition:
+      clip-path 0.55s var(--m-ease-in),
+      visibility 0s linear 0.55s;
+    background:
+      radial-gradient(80% 50% at 100% 0%, rgba(194, 164, 255, 0.14) 0%, transparent 60%),
+      #0b080c;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .mobile-menu-overlay.mobile-menu-active {
+    visibility: visible;
+    clip-path: circle(150vmax at calc(100% - 35px) 37px);
+    transition:
+      clip-path 0.7s var(--m-ease-out),
+      visibility 0s;
+  }
+
+  .mobile-menu-content {
+    width: 100%;
+    padding: 0 28px;
+    box-sizing: border-box;
+    align-items: stretch;
+    gap: 48px;
+    transform: none;
+  }
+
+  .mobile-menu-nav {
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  .mobile-menu-nav a {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 0;
+    font-size: clamp(34px, 11vw, 52px);
+    letter-spacing: 2px;
+    line-height: 1.05;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    opacity: 0;
+    translate: 0 28px;
+    transition:
+      opacity 0.3s ease,
+      translate 0.3s var(--m-ease-in),
+      color 0.2s ease;
+  }
+
+  .mobile-menu-nav a::after {
+    display: none;
+  }
+
+  .mobile-menu-index {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.35);
+    font-variant-numeric: tabular-nums;
+    min-width: 20px;
+  }
+
+  .mobile-menu-nav a.is-current {
+    color: var(--accentColor);
+  }
+
+  .mobile-menu-nav a.is-current .mobile-menu-index {
+    color: var(--accentColor);
+  }
+
+  .mobile-menu-nav a:active {
+    scale: 0.97;
+    color: var(--accentColor);
+  }
+
+  .mobile-menu-overlay.mobile-menu-active .mobile-menu-nav a {
+    opacity: 1;
+    translate: 0 0;
+    transition:
+      opacity 0.5s ease,
+      translate 0.6s var(--m-ease-out),
+      color 0.2s ease,
+      scale var(--m-dur-fast) var(--m-ease-out);
+    transition-delay: calc(0.18s + var(--i, 0) * 0.06s);
+  }
+
+  .mobile-menu-footer {
+    align-items: flex-start;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu-overlay.mobile-menu-active .mobile-menu-footer {
+    opacity: 1;
+    transition: opacity 0.5s ease 0.5s;
+  }
+
+  .mobile-menu-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .mobile-menu-email {
+    font-size: 14px;
+    color: rgba(234, 229, 236, 0.7);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .hamburger-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ── Entrance + reveal motion (only when the user allows motion) ── */
+@media only screen and (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  /* Hero entrance */
+  .mobile-photo-wrapper {
+    animation: mHeroReveal 1.1s 0.25s var(--m-ease-out) backwards;
+  }
+
+  .mobile-photo-backdrop {
+    animation:
+      mFadeScale 1.2s 0.2s var(--m-ease-out) backwards,
+      pulseAura 4.5s 1.4s ease-in-out infinite alternate;
+  }
+
+  .mobile-hero-actions .mobile-cta-btn {
+    animation: mRise 0.8s var(--m-ease-out) backwards;
+  }
+
+  .mobile-hero-actions .mobile-cta-btn:nth-child(1) {
+    animation-delay: 0.85s;
+  }
+
+  .mobile-hero-actions .mobile-cta-btn:nth-child(2) {
+    animation-delay: 0.95s;
+  }
+
+  .mobile-scroll-cue {
+    animation: mFade 0.8s 1.3s ease backwards;
+  }
+
+  /* Scroll reveals: classes are applied by MobileEnhancements.tsx */
+  .m-reveal {
+    opacity: 0;
+    translate: 0 28px;
+    transition:
+      opacity 0.7s ease,
+      translate var(--m-dur-slow) var(--m-ease-out);
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  .m-reveal.is-in {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  /* Headings rise out of a mask */
+  .m-reveal--mask {
+    opacity: 1;
+    clip-path: inset(0 0 100% 0);
+    translate: 0 40%;
+    transition:
+      clip-path var(--m-dur-slow) var(--m-ease-out),
+      translate var(--m-dur-slow) var(--m-ease-out);
+  }
+
+  .m-reveal--mask.is-in {
+    clip-path: inset(0 0 -10% 0);
+    translate: 0 0;
+  }
+
+  /* Career boxes: GSAP already scrubs their opacity, so only slide here */
+  .m-reveal--side {
+    opacity: 1;
+    translate: -22px 0;
+  }
+
+  .m-reveal--side.is-in {
+    translate: 0 0;
+  }
+
+  /* Tech stack icons pop in */
+  .m-reveal--pop {
+    opacity: 0;
+    translate: 0 0;
+    scale: 0.6;
+    transition:
+      opacity 0.4s ease,
+      scale 0.55s var(--m-ease-spring);
+    transition-delay: calc(min(var(--i, 0), 30) * 18ms);
+  }
+
+  .m-reveal--pop.is-in {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* What I Do: tags cascade in when a card opens */
+  .what-content-active .what-tags {
+    animation: mTagIn 0.45s var(--m-ease-out) backwards;
+  }
+
+  .what-content-active .what-tags:nth-child(2) { animation-delay: 0.04s; }
+  .what-content-active .what-tags:nth-child(3) { animation-delay: 0.08s; }
+  .what-content-active .what-tags:nth-child(4) { animation-delay: 0.12s; }
+  .what-content-active .what-tags:nth-child(5) { animation-delay: 0.16s; }
+  .what-content-active .what-tags:nth-child(6) { animation-delay: 0.2s; }
+  .what-content-active .what-tags:nth-child(7) { animation-delay: 0.24s; }
+  .what-content-active .what-tags:nth-child(8) { animation-delay: 0.28s; }
+  .what-content-active .what-tags:nth-child(n + 9) { animation-delay: 0.32s; }
+
+  /* Page transitions between routes (React Router viewTransition) */
+  ::view-transition-old(root) {
+    animation: mVtOut 0.3s var(--m-ease-in) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: mVtIn 0.55s var(--m-ease-out) both;
+  }
+}
+
+@media only screen and (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .header,
+  .mobile-menu-overlay,
+  .mobile-menu-overlay.mobile-menu-active,
+  .mobile-menu-nav a,
+  .mobile-menu-overlay.mobile-menu-active .mobile-menu-nav a {
+    transition: none;
+  }
+
+  .mobile-menu-nav a {
+    translate: none;
+  }
+
+  .mobile-photo-wrapper,
+  .landing-intro,
+  .landing-info,
+  .mobile-hero-actions,
+  .mobile-scroll-cue {
+    translate: none;
+    scale: none;
+  }
+
+  .mobile-photo-wrapper img,
+  .mobile-photo-backdrop,
+  .mobile-scroll-dot {
+    animation: none;
+  }
+}
+
+@keyframes mHeroReveal {
+  from {
+    clip-path: circle(0% at 50% 45%);
+    scale: 0.92;
+  }
+  to {
+    clip-path: circle(110% at 50% 45%);
+    scale: 1;
+  }
+}
+
+@keyframes mFadeScale {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+
+@keyframes mRise {
+  from {
+    opacity: 0;
+    translate: 0 22px;
+  }
+}
+
+@keyframes mFade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes mTagIn {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+    scale: 0.9;
+  }
+}
+
+@keyframes mToastIn {
+  from {
+    opacity: 0;
+    translate: -50% 16px;
+    scale: 0.95;
+  }
+}
+
+@keyframes mSplashLetter {
+  from {
+    translate: 0 110%;
+  }
+}
+
+@keyframes mSplashBar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes mSplashOut {
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes mVtOut {
+  to {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+@keyframes mVtIn {
+  from {
+    opacity: 0;
+    translate: 0 40px;
+  }
+}

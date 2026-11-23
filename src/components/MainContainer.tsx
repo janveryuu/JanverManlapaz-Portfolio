@@ -12,6 +12,9 @@ import TechStackNew from "./TechStackNew";
 import Certifications from "./Certifications";
 import CallToAction from "./CallToAction";
 import setSplitText from "./utils/splitText";
+import MobileEnhancements from "../mobile/MobileEnhancements";
+import MobileSplash from "../mobile/MobileSplash";
+import { SHOW_MOBILE_SPLASH } from "../mobile/splashState";
 
 const MainContainer = ({ children }: PropsWithChildren) => {
   const [isDesktopView, setIsDesktopView] = useState<boolean>(() =>
@@ -57,6 +60,9 @@ const MainContainer = ({ children }: PropsWithChildren) => {
       <TechStackNew />
       <CallToAction />
       <Contact />
+      {/* Phone-only motion layer + first-visit splash (never rendered on desktop/tablet) */}
+      {isMobile && <MobileEnhancements />}
+      {isMobile && SHOW_MOBILE_SPLASH && <MobileSplash />}
     </div>
   );
 };

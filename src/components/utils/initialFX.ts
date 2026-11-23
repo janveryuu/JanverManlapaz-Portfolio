@@ -20,6 +20,11 @@ export function initialFX() {
       lenis.start();
     }
   }
+  // Animated CSS blur on dozens of split characters is expensive on phones:
+  // keep it on desktop, use a plain fade + rise on mobile.
+  const blurFrom = isMobile ? {} : { filter: "blur(5px)" };
+  const blurTo = isMobile ? {} : { filter: "blur(0px)" };
+
   document.getElementsByTagName("main")[0].classList.add("main-active");
   gsap.to("body", {
     backgroundColor: "#0b080c",
@@ -35,11 +40,11 @@ export function initialFX() {
   });
   gsap.fromTo(
     landingText.chars,
-    { opacity: 0, y: 80, filter: "blur(5px)" },
+    { opacity: 0, y: 80, ...blurFrom },
     {
       opacity: 1,
       duration: 1.2,
-      filter: "blur(0px)",
+      ...blurTo,
       ease: "power3.inOut",
       y: 0,
       stagger: 0.025,
@@ -52,11 +57,11 @@ export function initialFX() {
   var landingText2 = new TextSplitter(".landing-h2-info", TextProps);
   gsap.fromTo(
     landingText2.chars,
-    { opacity: 0, y: 80, filter: "blur(5px)" },
+    { opacity: 0, y: 80, ...blurFrom },
     {
       opacity: 1,
       duration: 1.2,
-      filter: "blur(0px)",
+      ...blurTo,
       ease: "power3.inOut",
       y: 0,
       stagger: 0.025,

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "../mobile/useIsMobile";
 import { config, Certification } from "../config";
 import { MdArrowOutward } from "react-icons/md";
 import { FiX, FiExternalLink } from "react-icons/fi";
 import "./MyCertificates.css";
 
 const MyCertificates = () => {
+  const isMobile = useIsMobile();
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const MyCertificates = () => {
   return (
     <div className="mycerts-page">
       <div className="mycerts-header">
-        <Link to="/" className="back-button" data-cursor="disable">
+        <Link to="/" className="back-button" data-cursor="disable" viewTransition={isMobile}>
           ← Back to Home
         </Link>
         <h1>

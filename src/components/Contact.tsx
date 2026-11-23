@@ -3,11 +3,31 @@ import "./styles/Contact.css";
 import { config } from "../config";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FiCheck, FiCopy } from "react-icons/fi";
+import { useIsMobile } from "../mobile/useIsMobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
+  const isMobile = useIsMobile();
+  const [toast, setToast] = useState<string | null>(null);
+  const toastTimer = useRef<number>(0);
+
+  useEffect(() => () => clearTimeout(toastTimer.current), []);
+
+  const copyEmail = async () => {
+    let message = "Email copied";
+    try {
+      await navigator.clipboard.writeText(config.contact.email);
+    } catch {
+      message = "Couldn't copy, long-press the email instead";
+    }
+    setToast(message);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(null), 2200);
+  };
+
   useEffect(() => {
     const contactTimeline = gsap.timeline({
       scrollTrigger: {
@@ -63,10 +83,15 @@ const Contact = () => {
         <div className="contact-flex">
           <div className="contact-box">
             <h4>Email</h4>
-            <p>
+            <p className={isMobile ? "m-email-row" : undefined}>
               <a href={`mailto:${config.contact.email}`} data-cursor="disable">
                 {config.contact.email}
               </a>
+              {isMobile && (
+                <button type="button" className="m-copy-btn" onClick={copyEmail}>
+                  <FiCopy aria-hidden="true" /> Copy
+                </button>
+              )}
             </p>
             <h4>Location</h4>
             <p>
@@ -131,6 +156,11 @@ const Contact = () => {
           </div>
         </div>
       </div>
+      {isMobile && toast && (
+        <div className="m-toast" role="status" aria-live="polite">
+          <FiCheck aria-hidden="true" /> {toast}
+        </div>
+      )}
     </div>
   );
 };
