@@ -323,55 +323,149 @@
   box-shadow: 0 10px 30px rgba(194, 164, 255, 0.4);
 }
 
-/* Mobile: Stack work items vertically when GSAP pinning is disabled */
+/* ============================================================
+   MOBILE (≤768px) — Sticky stacking project cards
+   Each card pins under the header and the next one slides over it.
+   MobileEnhancements.tsx writes --stack (0..1) as a card gets covered.
+   ============================================================ */
 @media only screen and (max-width: 768px) {
   .work-section {
     height: auto;
     min-height: auto;
-  }
-
-  .work-flex {
-    flex-direction: column;
-    margin-left: 0;
-    padding-right: 0;
-    gap: 0;
-  }
-
-  .work-box {
-    width: 100%;
-    max-width: 100%;
-    padding: 30px 15px;
-    border-right: none;
-    border-bottom: 1px solid #363636;
-    gap: 20px;
-  }
-
-  .work-flex .work-box:nth-child(even) {
-    flex-direction: column;
+    will-change: auto;
+    padding-bottom: 12px;
   }
 
   .work-section h2 {
     font-size: 36px;
     margin-top: 50px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+  }
+
+  .work-container {
+    height: auto;
+  }
+
+  .work-flex::before,
+  .work-flex::after {
+    display: none;
+  }
+
+  .work-flex {
+    flex-direction: column;
+    height: auto;
+    margin-left: 0;
+    padding-right: 0;
+    gap: 0;
+    transform: none;
+    will-change: auto;
+  }
+
+  .work-box,
+  .work-flex .work-box:nth-child(even) {
+    flex-direction: column;
+  }
+
+  .work-box {
+    position: sticky;
+    top: calc(76px + var(--i, 0) * 8px);
+    width: 100%;
+    max-width: 100%;
+    padding: 22px 18px 20px;
+    margin-bottom: 18px;
+    gap: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    /* Opaque so stacked cards fully cover the one beneath */
+    background:
+      radial-gradient(110% 55% at 100% 0%, rgba(194, 164, 255, 0.12) 0%, transparent 60%),
+      #110c15;
+    box-shadow: 0 -14px 34px -14px rgba(0, 0, 0, 0.75);
+    transform-origin: 50% 0%;
+    scale: calc(1 - var(--stack, 0) * 0.06);
+  }
+
+  /* Dimming veil as a card sinks into the stack */
+  .work-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #050307;
+    opacity: calc(var(--stack, 0) * 0.55);
+    pointer-events: none;
+  }
+
+  .work-title {
+    margin-bottom: 14px;
+    gap: 14px;
   }
 
   .work-title h3 {
     font-size: 30px;
     line-height: 30px;
+    color: var(--accentColor);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .work-title > div h4 {
+    font-size: 20px;
   }
 
   .work-info h4 {
-    font-size: 18px;
+    font-size: 15px;
+  }
+
+  .work-info p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .work-info > p {
+    width: 100%;
+  }
+
+  .work-image-in {
+    border-radius: 22px;
+    -webkit-tap-highlight-color: transparent;
+    transition: scale 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .work-image-in:hover {
+    transform: none;
+  }
+
+  .work-image-in:active {
+    scale: 0.97;
   }
 
   .work-image img {
-    max-height: 200px;
+    max-height: 170px;
+    border-radius: 22px;
+  }
+
+  .work-image-in:hover img {
+    transform: none;
+  }
+
+  /* Touch has no hover: keep the "open" affordance visible */
+  .work-link {
+    opacity: 1;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    bottom: 10px;
+    right: 10px;
   }
 
   .work-box-cta {
+    position: relative;
+    top: auto;
     padding: 40px 20px;
-    border-bottom: none;
+    margin-bottom: 0;
+    background:
+      radial-gradient(90% 60% at 50% 0%, rgba(194, 164, 255, 0.2) 0%, transparent 70%),
+      #110c15;
   }
 
   .see-all-works h3 {
@@ -382,3 +476,10 @@
     font-size: 14px;
   }
 }
+
+@media only screen and (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .work-box {
+    scale: none;
+  }
+}
+
