@@ -29,8 +29,8 @@ const MobileSplash = () => {
   return (
     <div className={`m-splash${phase === "leaving" ? " is-leaving" : ""}`} aria-hidden="true">
       <div className="m-splash-mark">
-        <span>J</span>
-        <span>M</span>
+        <span>janver</span>
+        <span>yu</span>
       </div>
       <div className="m-splash-bar">
         <i />
