@@ -369,65 +369,6 @@
   }
 }
 
-/* Mobile: Stack items vertically when GSAP pinning is disabled */
-@media only screen and (max-width: 768px) {
-  .certifications-section {
-    height: auto;
-    min-height: auto;
-  }
-
-  .cert-flex {
-    flex-direction: column;
-    margin-right: 0;
-    padding-left: 0;
-    gap: 0;
-  }
-
-  .cert-box {
-    width: 100%;
-    max-width: 100%;
-    padding: 30px 15px;
-    border-left: none;
-    border-bottom: 1px solid #363636;
-    gap: 20px;
-  }
-
-  .cert-flex .cert-box:first-child {
-    border-top: 1px solid #363636;
-  }
-
-  .cert-flex .cert-box:nth-child(even) {
-    flex-direction: column;
-  }
-
-  .certifications-section h2 {
-    font-size: 36px;
-    margin-top: 50px;
-    margin-bottom: 20px;
-    text-align: left;
-    margin-right: 0;
-  }
-
-  .cert-title h3 {
-    font-size: 30px;
-    line-height: 30px;
-  }
-
-  .cert-info h4 {
-    font-size: 18px;
-  }
-
-  .cert-image-in img {
-    max-height: 200px;
-  }
-
-  .cert-box-cta {
-    padding: 60px 20px;
-    border-left: none;
-    border-bottom: 1px solid #363636;
-  }
-}
-
 /* See All Certificates CTA Box */
 .cert-box-cta {
   display: flex;
@@ -476,4 +417,426 @@
 .see-all-btn:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 30px rgba(194, 164, 255, 0.4);
+}
+
+/* ============================================================
+   MOBILE (≤768px) — Swipe carousel + bottom-sheet inspector
+   Desktop/tablet styles above are untouched; everything below
+   only applies at phone widths.
+   ============================================================ */
+@media only screen and (max-width: 768px) {
+  .certifications-section {
+    height: auto;
+    min-height: auto;
+    will-change: auto;
+    padding-bottom: 36px;
+  }
+
+  .certifications-section h2 {
+    font-size: 36px;
+    margin-top: 50px;
+    margin-bottom: 22px;
+    text-align: left;
+    margin-right: 0;
+  }
+
+  .cert-container {
+    height: auto;
+  }
+
+  /* The 50000vw divider lines caused sideways overflow / blank panning on phones */
+  .cert-flex::before,
+  .cert-flex::after {
+    display: none;
+  }
+
+  /* Native, momentum-scrolling snap carousel (edge to edge) */
+  .cert-flex {
+    --cert-card-w: min(84vw, 400px);
+    flex-direction: row;
+    align-items: stretch;
+    width: auto;
+    height: auto;
+    margin: 0 -15px;
+    padding: 8px calc((100vw - var(--cert-card-w)) / 2) 12px;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    will-change: auto;
+    transform: none;
+    box-sizing: border-box;
+  }
+
+  .cert-flex::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cert-box,
+  .cert-flex .cert-box:nth-child(even) {
+    flex-direction: column;
+  }
+
+  .cert-box {
+    position: relative;
+    flex: 0 0 var(--cert-card-w);
+    width: var(--cert-card-w);
+    max-width: none;
+    padding: 20px 18px 18px;
+    gap: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    background:
+      radial-gradient(120% 60% at 0% 0%, rgba(194, 164, 255, 0.1) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0.01) 100%);
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    /* --d (0 = centred, 1 = one card away) is written by Certifications.tsx on scroll */
+    scale: calc(1 - var(--d, 0) * 0.07);
+    opacity: calc(1 - var(--d, 0) * 0.5);
+  }
+
+  /* Accent rim that only lights up on the centred card */
+  .cert-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow:
+      inset 0 0 0 1px rgba(194, 164, 255, 0.32),
+      0 18px 40px -18px rgba(194, 164, 255, 0.35);
+    opacity: calc(1 - var(--d, 0) * 2.5);
+  }
+
+  .cert-title {
+    gap: 14px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+  }
+
+  .cert-title h3 {
+    font-size: 30px;
+    line-height: 30px;
+    color: var(--accentColor);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cert-title > div h4 {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+
+  .cert-info h4 {
+    font-size: 15px;
+  }
+
+  .cert-info > p {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cert-skill-tag {
+    font-size: 10.5px;
+    padding: 3px 9px;
+  }
+
+  .cert-image {
+    margin-top: auto;
+  }
+
+  .cert-image-in {
+    height: 180px;
+    max-height: none;
+    border-radius: 14px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cert-image-in img {
+    max-height: 168px;
+    opacity: 0;
+    transition: opacity 0.5s ease, scale 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .cert-image-in.is-loaded img {
+    opacity: 1;
+  }
+
+  /* Skeleton shimmer until the certificate image is decoded */
+  .cert-image-in::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(100deg, transparent 30%, rgba(194, 164, 255, 0.1) 50%, transparent 70%),
+      rgba(255, 255, 255, 0.03);
+    background-size: 220% 100%, auto;
+    animation: certShimmer 1.3s linear infinite;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .cert-image-in.is-loaded::before {
+    opacity: 0;
+    animation: none;
+  }
+
+  /* No hover on touch: show the affordance permanently, press feedback instead */
+  .cert-image-in:hover img {
+    transform: none;
+  }
+
+  .cert-image-in:active img {
+    scale: 0.96;
+  }
+
+  .cert-link {
+    opacity: 1;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    bottom: 8px;
+    right: 8px;
+  }
+
+  .cert-tap-hint {
+    position: absolute;
+    left: 10px;
+    bottom: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(11, 8, 12, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* "See all" closing slide */
+  .cert-box-cta {
+    justify-content: center;
+    padding: 40px 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      radial-gradient(90% 60% at 50% 0%, rgba(194, 164, 255, 0.2) 0%, transparent 70%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .see-all-certs h3 {
+    font-size: 26px;
+  }
+
+  .see-all-certs p {
+    font-size: 14px;
+  }
+
+  /* Pager: counter + dots (rendered on mobile only) */
+  .cert-pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+  }
+
+  .cert-pager-count {
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.45);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cert-pager-count strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .cert-pager-dots {
+    display: flex;
+    align-items: center;
+  }
+
+  /* 22×40 hit area, 6px visual dot */
+  .cert-pager-dot {
+    width: 22px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cert-pager-dot::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.22);
+    transition: width 0.35s cubic-bezier(0.32, 0.72, 0, 1), background-color 0.35s ease;
+  }
+
+  .cert-pager-dot.is-active::before {
+    width: 18px;
+    background: var(--accentColor);
+  }
+
+  /* ─── Bottom sheet inspector ─── */
+  .cert-modal-backdrop {
+    align-items: flex-end;
+    padding: 0;
+    background-color: rgba(0, 0, 0, calc(0.78 * var(--sheet-fade, 1)));
+    animation: certSheetFade 0.3s ease forwards;
+  }
+
+  .cert-modal-backdrop.is-closing {
+    animation: certSheetFadeOut 0.28s ease forwards;
+  }
+
+  .cert-modal-content {
+    max-width: 100%;
+    max-height: 88svh;
+    padding-top: 22px;
+    border-radius: 24px 24px 0 0;
+    border-bottom: none;
+    animation: certSheetUp 0.45s cubic-bezier(0.32, 0.72, 0, 1) backwards;
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    will-change: transform;
+  }
+
+  .cert-modal-backdrop.is-closing .cert-modal-content {
+    animation: certSheetDown 0.28s cubic-bezier(0.4, 0, 1, 1) forwards;
+  }
+
+  .cert-sheet-handle {
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    translate: -50% 0;
+    width: 40px;
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  .cert-modal-close {
+    width: 44px;
+    height: 44px;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+  }
+
+  .cert-modal-close:active {
+    scale: 0.92;
+  }
+
+  .cert-modal-image-wrap {
+    max-height: calc(88svh - 150px);
+    padding: 12px;
+    background: #050307;
+  }
+
+  .cert-modal-image-wrap:not(.is-loaded) {
+    min-height: 220px;
+    background:
+      linear-gradient(100deg, transparent 30%, rgba(194, 164, 255, 0.1) 50%, transparent 70%),
+      #050307;
+    background-size: 220% 100%, auto;
+    animation: certShimmer 1.3s linear infinite;
+  }
+
+  .cert-modal-img {
+    max-height: calc(88svh - 180px);
+    transition: opacity 0.4s ease;
+  }
+
+  .cert-modal-image-wrap:not(.is-loaded) .cert-modal-img {
+    opacity: 0;
+  }
+
+  .cert-modal-footer {
+    padding: 14px 18px calc(16px + env(safe-area-inset-bottom));
+  }
+
+  .cert-modal-info h4 {
+    font-size: 14px;
+  }
+
+  .cert-modal-open-btn {
+    min-height: 44px;
+    padding: 0 18px;
+    font-size: 13px;
+  }
+
+  .cert-modal-open-btn:active {
+    scale: 0.96;
+  }
+}
+
+@keyframes certShimmer {
+  from {
+    background-position: 120% 0, 0 0;
+  }
+  to {
+    background-position: -120% 0, 0 0;
+  }
+}
+
+@keyframes certSheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* No "from": starts wherever a swipe left the sheet */
+@keyframes certSheetDown {
+  to {
+    transform: translateY(105%);
+  }
+}
+
+@keyframes certSheetFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes certSheetFadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .cert-box {
+    scale: none;
+  }
+
+  .cert-modal-content,
+  .cert-modal-backdrop,
+  .cert-modal-backdrop.is-closing,
+  .cert-modal-backdrop.is-closing .cert-modal-content,
+  .cert-image-in::before,
+  .cert-modal-image-wrap:not(.is-loaded) {
+    animation: none;
+  }
 }
