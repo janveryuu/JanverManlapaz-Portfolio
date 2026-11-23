@@ -238,3 +238,52 @@
     margin-top: 3px;
   }
 }
+
+/* ============================================================
+   MOBILE (≤768px) — Inverted pyramid that never wraps
+   Rows are regrouped 8/7/6/5/4 in TechStackNew.tsx; each tile is
+   sized from the viewport so the widest row always fits.
+   ============================================================ */
+@media screen and (max-width: 768px) {
+  .techstack-content {
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+
+  .techstack-pyramid {
+    --ts-gap: 6px;
+    --ts-tile: min(48px, calc((100vw - 24px - 7 * var(--ts-gap)) / 8));
+    gap: var(--ts-gap);
+  }
+
+  .techstack-row {
+    flex-wrap: nowrap;
+    gap: var(--ts-gap);
+  }
+
+  .techstack-item {
+    width: var(--ts-tile);
+    height: calc(var(--ts-tile) * 1.22);
+    padding: 4px 1px;
+    box-sizing: border-box;
+    border-radius: 9px;
+    flex-shrink: 0;
+  }
+
+  .techstack-item img {
+    width: calc(var(--ts-tile) * 0.46);
+    height: calc(var(--ts-tile) * 0.46);
+  }
+
+  .techstack-item span {
+    font-size: 6px;
+    letter-spacing: -0.1px;
+    max-width: 100%;
+    margin-top: 4px;
+  }
+
+  /* No sticky hover lift on touch */
+  .techstack-item:hover {
+    transform: none;
+  }
+}

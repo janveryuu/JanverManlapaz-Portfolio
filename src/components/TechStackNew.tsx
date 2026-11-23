@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import "./styles/TechStackNew.css";
+import { useIsMobile } from "../mobile/useIsMobile";
 
 interface TechItem {
   name: string;
@@ -57,7 +58,25 @@ const techStack: TechItem[][] = [
   ],
 ];
 
+// Phones can't fit a 10-wide row, so the same 30 icons are regrouped into a
+// narrower inverted pyramid (8 → 7 → 6 → 5 → 4) that never wraps.
+const MOBILE_ROW_SIZES = [8, 7, 6, 5, 4];
+const regroup = (rows: TechItem[][], sizes: number[]) => {
+  const flat = rows.flat();
+  const out: TechItem[][] = [];
+  let start = 0;
+  sizes.forEach((size) => {
+    if (start < flat.length) out.push(flat.slice(start, start + size));
+    start += size;
+  });
+  if (start < flat.length) out.push(flat.slice(start));
+  return out;
+};
+const mobileTechStack = regroup(techStack, MOBILE_ROW_SIZES);
+
 const TechStackNew = () => {
+  const isMobile = useIsMobile();
+  const rows = isMobile ? mobileTechStack : techStack;
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -108,7 +127,7 @@ const TechStackNew = () => {
         <h2>Tech Stack</h2>
 
         <div className="techstack-pyramid">
-          {techStack.map((row, rowIndex) => (
+          {rows.map((row, rowIndex) => (
             <div key={rowIndex} className="techstack-row">
               {row.map((tech, techIndex) => (
                 <a
